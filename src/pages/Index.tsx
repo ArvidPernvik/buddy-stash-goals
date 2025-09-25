@@ -242,7 +242,7 @@ const Index = () => {
             
             <div className="grid md:grid-cols-3 gap-8">
               <Card className="p-6 text-center bg-surface border-border/50">
-                <div className="w-20 h-20 mx-auto mb-6 rounded-lg overflow-hidden">
+                <div className="w-32 h-32 mx-auto mb-6 rounded-xl overflow-hidden shadow-lg">
                   <img 
                     src={elderlyPersonImage} 
                     alt="Planning a trip" 
@@ -258,7 +258,7 @@ const Index = () => {
               </Card>
               
               <Card className="p-6 text-center bg-surface border-border/50">
-                <div className="w-20 h-20 mx-auto mb-6 rounded-lg overflow-hidden">
+                <div className="w-32 h-32 mx-auto mb-6 rounded-xl overflow-hidden shadow-lg">
                   <img 
                     src={groupPeopleImage} 
                     alt="Saving for experiences" 
@@ -274,7 +274,7 @@ const Index = () => {
               </Card>
               
               <Card className="p-6 text-center bg-surface border-border/50">
-                <div className="w-20 h-20 mx-auto mb-6 rounded-lg overflow-hidden">
+                <div className="w-32 h-32 mx-auto mb-6 rounded-xl overflow-hidden shadow-lg">
                   <img 
                     src={mountainSuccessImage} 
                     alt="Reaching a goal together" 
