@@ -7,6 +7,9 @@ import { AddContributionDialog } from "@/components/AddContributionDialog";
 import { CreateGoalDialog } from "@/components/CreateGoalDialog";
 import { SavingsGoal } from "@/types";
 import heroImage from "@/assets/hero-image.jpg";
+import elderlyPersonImage from "@/assets/elderly-person.png";
+import groupPeopleImage from "@/assets/group-people.png";
+import mountainSuccessImage from "@/assets/mountain-success.png";
 
 // Mock data with proper typing
 const mockGoals: SavingsGoal[] = [
@@ -239,8 +242,12 @@ const Index = () => {
             
             <div className="grid md:grid-cols-3 gap-8">
               <Card className="p-6 text-center bg-surface border-border/50">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Target className="w-6 h-6 text-primary" />
+                <div className="w-20 h-20 mx-auto mb-6 rounded-lg overflow-hidden">
+                  <img 
+                    src={elderlyPersonImage} 
+                    alt="Planning a trip" 
+                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300"
+                  />
                 </div>
                 <h3 className="text-lg font-semibold text-text-primary mb-2">
                   Planning a trip?
@@ -251,8 +258,12 @@ const Index = () => {
               </Card>
               
               <Card className="p-6 text-center bg-surface border-border/50">
-                <div className="w-12 h-12 bg-success/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-6 h-6 text-success" />
+                <div className="w-20 h-20 mx-auto mb-6 rounded-lg overflow-hidden">
+                  <img 
+                    src={groupPeopleImage} 
+                    alt="Saving for experiences" 
+                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300"
+                  />
                 </div>
                 <h3 className="text-lg font-semibold text-text-primary mb-2">
                   Saving for experiences?
@@ -263,8 +274,12 @@ const Index = () => {
               </Card>
               
               <Card className="p-6 text-center bg-surface border-border/50">
-                <div className="w-12 h-12 bg-warning/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <TrendingUp className="w-6 h-6 text-warning" />
+                <div className="w-20 h-20 mx-auto mb-6 rounded-lg overflow-hidden">
+                  <img 
+                    src={mountainSuccessImage} 
+                    alt="Reaching a goal together" 
+                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300"
+                  />
                 </div>
                 <h3 className="text-lg font-semibold text-text-primary mb-2">
                   Reaching a goal together?
