@@ -196,7 +196,7 @@ const Index = () => {
                     size="lg"
                     className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg px-8 py-3"
                   >
-                    Get started
+                    {user ? "Fortsätt spara" : "Kom igång"}
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
                   <Button 
@@ -205,7 +205,7 @@ const Index = () => {
                     className="text-lg px-8 py-3"
                     onClick={() => scrollToSection('how-it-works')}
                   >
-                    See how it works
+                    Se hur det fungerar
                   </Button>
                 </div>
               </div>
@@ -570,7 +570,7 @@ const Index = () => {
                     size="lg"
                     className="bg-success hover:bg-success/90 text-success-foreground text-lg px-12 py-4"
                   >
-                    Kom igång gratis
+                    {user ? "Fortsätt spara" : "Kom igång gratis"}
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
                   <p className="text-sm text-text-tertiary mt-4">
