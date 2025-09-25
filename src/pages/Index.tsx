@@ -12,50 +12,7 @@ import groupPeopleImage from "@/assets/group-people.png";
 import mountainSuccessImage from "@/assets/mountain-success.png";
 
 // Mock data with proper typing
-const mockGoals: SavingsGoal[] = [
-  {
-    id: "1",
-    title: "Trip to Croatia",
-    description: "Summer vacation for the whole group to Split and Dubrovnik",
-    targetAmount: 45000,
-    currentAmount: 32400,
-    category: "Travel",
-    deadline: "2024-06-01",
-    contributors: [
-      { id: "1", name: "Anna", amount: 8500 },
-      { id: "2", name: "Erik", amount: 7200 },
-      { id: "3", name: "Sara", amount: 9100 },
-      { id: "4", name: "Marcus", amount: 7600 },
-    ],
-  },
-  {
-    id: "2",
-    title: "Concert tickets",
-    description: "The Weeknd at Tele2 Arena - VIP tickets for everyone",
-    targetAmount: 12000,
-    currentAmount: 8800,
-    category: "Event",
-    contributors: [
-      { id: "1", name: "Anna", amount: 3000 },
-      { id: "2", name: "Erik", amount: 2900 },
-      { id: "5", name: "Julia", amount: 2900 },
-    ],
-  },
-  {
-    id: "3",
-    title: "Shared car",
-    description: "Used car for road trips and adventures",
-    targetAmount: 80000,
-    currentAmount: 23500,
-    category: "Vehicle",
-    contributors: [
-      { id: "1", name: "Anna", amount: 6000 },
-      { id: "2", name: "Erik", amount: 5500 },
-      { id: "3", name: "Sara", amount: 7000 },
-      { id: "4", name: "Marcus", amount: 5000 },
-    ],
-  },
-];
+const mockGoals: SavingsGoal[] = [];
 
 const Index = () => {
   const [goals, setGoals] = useState(mockGoals);
