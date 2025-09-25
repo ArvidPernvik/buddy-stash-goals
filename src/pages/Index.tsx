@@ -34,6 +34,9 @@ const Index = () => {
   useEffect(() => {
     if (!loading && !user) {
       navigate('/auth');
+    } else if (user) {
+      // Automatiskt visa dashboard för inloggade användare
+      setShowDashboard(true);
     }
   }, [user, loading, navigate]);
 
@@ -167,6 +170,15 @@ const Index = () => {
                 <button onClick={() => scrollToSection('contact')} className="block w-full text-left py-2 text-text-secondary hover:text-text-primary">
                   Contact
                 </button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={signOut}
+                  className="w-full justify-start text-text-secondary hover:text-text-primary"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logga ut
+                </Button>
               </div>
             )}
           </div>
