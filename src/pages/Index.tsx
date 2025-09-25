@@ -5,6 +5,7 @@ import { Plus, Target, Users, TrendingUp, ArrowRight, Menu, X } from "lucide-rea
 import { SavingsGoalCard } from "@/components/SavingsGoalCard";
 import { AddContributionDialog } from "@/components/AddContributionDialog";
 import { CreateGoalDialog } from "@/components/CreateGoalDialog";
+import { AnimatedSavingsGoals } from "@/components/AnimatedSavingsGoals";
 import { SavingsGoal } from "@/types";
 import heroImage from "@/assets/hero-image.jpg";
 import elderlyPersonImage from "@/assets/elderly-person.png";
@@ -175,11 +176,7 @@ const Index = () => {
               </div>
               
               <div className="relative">
-                <img 
-                  src={heroImage} 
-                  alt="Friends saving money together"
-                  className="w-full h-auto rounded-2xl shadow-[var(--shadow-large)]"
-                />
+                <AnimatedSavingsGoals />
               </div>
             </div>
           </div>
