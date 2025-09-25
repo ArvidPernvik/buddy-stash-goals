@@ -184,9 +184,9 @@ const Index = () => {
               <div className="space-y-8">
                 <div className="space-y-4">
                   <h1 className="text-4xl lg:text-6xl font-bold text-text-primary leading-tight">
-                    Save together.
+                    Save Smarter.
                     <br />
-                    <span className="text-text-secondary">Reach goals faster.</span>
+                    <span className="text-text-secondary">Save Together.</span>
                   </h1>
                   <p className="text-lg text-text-secondary max-w-xl">
                     Set up savings goals together with friends and family. 
