@@ -281,10 +281,10 @@ const Index = () => {
         <section id="how-it-works" className="py-16">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-text-primary mb-4">
+              <h2 className="text-5xl lg:text-7xl xl:text-8xl font-bold text-text-primary mb-6 leading-tight">
                 How it works
               </h2>
-              <p className="text-text-secondary max-w-2xl mx-auto">
+              <p className="text-lg lg:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed">
                 Getting started with group savings is simple and straightforward.
               </p>
             </div>
@@ -333,10 +333,10 @@ const Index = () => {
         <section id="pricing" className="py-16 bg-surface/50">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-text-primary mb-4">
+              <h2 className="text-5xl lg:text-7xl xl:text-8xl font-bold text-text-primary mb-6 leading-tight">
                 Simple pricing
               </h2>
-              <p className="text-text-secondary max-w-2xl mx-auto">
+              <p className="text-lg lg:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed">
                 Start for free and upgrade when you need more features.
               </p>
             </div>
@@ -382,10 +382,10 @@ const Index = () => {
         <section id="contact" className="py-16">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-text-primary mb-4">
+              <h2 className="text-5xl lg:text-7xl xl:text-8xl font-bold text-text-primary mb-6 leading-tight">
                 Get in touch
               </h2>
-              <p className="text-text-secondary max-w-2xl mx-auto">
+              <p className="text-lg lg:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed">
                 Have questions? We'd love to hear from you.
               </p>
             </div>
