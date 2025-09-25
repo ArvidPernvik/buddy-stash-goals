@@ -428,7 +428,6 @@ const Index = () => {
             <div className="flex items-center space-x-8">
               <div>
                 <h1 className="text-2xl font-bold text-text-primary">SparGrupp</h1>
-                <p className="text-sm text-text-secondary">Save together with friends</p>
               </div>
               
               {/* Navigation Links */}
