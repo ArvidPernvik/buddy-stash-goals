@@ -9,9 +9,10 @@ import { SavingsGoal } from "@/types";
 interface SavingsGoalCardProps {
   goal: SavingsGoal;
   onAddContribution: (goalId: string) => void;
+  onContributorClick: (contributor: any, goalTitle: string) => void;
 }
 
-export function SavingsGoalCard({ goal, onAddContribution }: SavingsGoalCardProps) {
+export function SavingsGoalCard({ goal, onAddContribution, onContributorClick }: SavingsGoalCardProps) {
   const progress = (goal.currentAmount / goal.targetAmount) * 100;
   const remaining = goal.targetAmount - goal.currentAmount;
 
@@ -62,7 +63,11 @@ export function SavingsGoalCard({ goal, onAddContribution }: SavingsGoalCardProp
               <Users className="w-4 h-4 text-text-tertiary" />
               <div className="flex -space-x-2">
                 {goal.contributors.slice(0, 4).map((contributor) => (
-                  <Avatar key={contributor.id} className="w-6 h-6 border-2 border-surface">
+                  <Avatar 
+                    key={contributor.id} 
+                    className="w-6 h-6 border-2 border-surface cursor-pointer hover:scale-110 transition-transform"
+                    onClick={() => onContributorClick(contributor, goal.title)}
+                  >
                     <AvatarImage src={contributor.avatar} />
                     <AvatarFallback className="text-xs bg-muted">
                       {contributor.name.slice(0, 2).toUpperCase()}
