@@ -243,10 +243,10 @@ const Index = () => {
                   <Target className="w-6 h-6 text-primary" />
                 </div>
                 <h3 className="text-lg font-semibold text-text-primary mb-2">
-                  Fixed amount
+                  Planning a trip?
                 </h3>
                 <p className="text-text-secondary">
-                  Set a fixed monthly contribution that everyone commits to.
+                  Set a goal and start saving before you book. Whether it's a weekend getaway or a bucket-list adventure, SparGrupp helps you get there without the money stress.
                 </p>
               </Card>
               
@@ -255,10 +255,10 @@ const Index = () => {
                   <Users className="w-6 h-6 text-success" />
                 </div>
                 <h3 className="text-lg font-semibold text-text-primary mb-2">
-                  Flexible contributions
+                  Saving for experiences?
                 </h3>
                 <p className="text-text-secondary">
-                  Contribute whenever you can, as much as you want.
+                  From music festivals to dream trips to once-in-a-lifetime events, SparGrupp makes sure the money's ready when the moment comes.
                 </p>
               </Card>
               
@@ -267,10 +267,10 @@ const Index = () => {
                   <TrendingUp className="w-6 h-6 text-warning" />
                 </div>
                 <h3 className="text-lg font-semibold text-text-primary mb-2">
-                  Challenge based
+                  Reaching a goal together?
                 </h3>
                 <p className="text-text-secondary">
-                  Save based on challenges and milestones you create together.
+                  From family milestones to trips with friends, SparGrupp syncs contributions so progress feels fair, visible, and worth celebrating.
                 </p>
               </Card>
             </div>
