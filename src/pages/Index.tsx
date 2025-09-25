@@ -521,45 +521,61 @@ const Index = () => {
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <h2 className="text-5xl lg:text-7xl xl:text-8xl font-bold text-text-primary mb-6 leading-tight">
-                Simple pricing
+                Helt gratis
               </h2>
               <p className="text-lg lg:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed">
-                Start for free and upgrade when you need more features.
+                SparGrupp är helt gratis att använda. Inga dolda avgifter, inga prenumerationer.
               </p>
             </div>
             
-            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-              <Card className="p-8 bg-surface border-border/50">
-                <h3 className="text-2xl font-bold text-text-primary mb-4">Free</h3>
-                <div className="text-3xl font-bold text-text-primary mb-6">
-                  $0<span className="text-lg font-normal text-text-secondary">/month</span>
+            <div className="max-w-2xl mx-auto">
+              <Card className="p-12 bg-gradient-to-br from-success/5 to-success/10 border-success/20 shadow-lg">
+                <div className="text-center">
+                  <div className="w-20 h-20 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span className="text-3xl">✨</span>
+                  </div>
+                  <h3 className="text-3xl font-bold text-text-primary mb-4">Gratis för alltid</h3>
+                  <div className="text-6xl font-bold text-success mb-8">
+                    0 kr
+                  </div>
+                  <ul className="space-y-4 text-left max-w-lg mx-auto text-text-secondary mb-8">
+                    <li className="flex items-start gap-3">
+                      <span className="text-success mt-1">✓</span>
+                      <span>Obegränsat antal sparmål</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-success mt-1">✓</span>
+                      <span>Obegränsat antal gruppmedlemmar</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-success mt-1">✓</span>
+                      <span>Realtidsuppdateringar av framsteg</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-success mt-1">✓</span>
+                      <span>Fullständig mobilapp</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-success mt-1">✓</span>
+                      <span>Säker datahantering</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-success mt-1">✓</span>
+                      <span>Alla funktioner inkluderade</span>
+                    </li>
+                  </ul>
+                  <Button 
+                    onClick={() => setShowDashboard(true)}
+                    size="lg"
+                    className="bg-success hover:bg-success/90 text-success-foreground text-lg px-12 py-4"
+                  >
+                    Kom igång gratis
+                    <ArrowRight className="ml-2 w-5 h-5" />
+                  </Button>
+                  <p className="text-sm text-text-tertiary mt-4">
+                    Inget kreditkort behövs • Ingen registrering • Börja direkt
+                  </p>
                 </div>
-                <ul className="space-y-3 text-text-secondary mb-8">
-                  <li>• Up to 3 savings goals</li>
-                  <li>• Up to 5 group members</li>
-                  <li>• Basic progress tracking</li>
-                  <li>• Mobile app access</li>
-                </ul>
-                <Button className="w-full" variant="outline">
-                  Get started
-                </Button>
-              </Card>
-              
-              <Card className="p-8 bg-surface border-border/50 border-primary/50">
-                <h3 className="text-2xl font-bold text-text-primary mb-4">Pro</h3>
-                <div className="text-3xl font-bold text-text-primary mb-6">
-                  $9<span className="text-lg font-normal text-text-secondary">/month</span>
-                </div>
-                <ul className="space-y-3 text-text-secondary mb-8">
-                  <li>• Unlimited savings goals</li>
-                  <li>• Unlimited group members</li>
-                  <li>• Advanced analytics</li>
-                  <li>• Custom categories</li>
-                  <li>• Priority support</li>
-                </ul>
-                <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
-                  Upgrade to Pro
-                </Button>
               </Card>
             </div>
           </div>
