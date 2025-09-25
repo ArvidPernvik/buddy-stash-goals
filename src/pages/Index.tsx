@@ -229,10 +229,10 @@ const Index = () => {
         <section id="saving-methods" className="py-16 bg-surface/50">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-4xl lg:text-5xl font-bold text-text-primary mb-4">
+              <h2 className="text-5xl lg:text-7xl xl:text-8xl font-bold text-text-primary mb-6 leading-tight">
                 What are you saving for?
               </h2>
-              <p className="text-text-secondary max-w-2xl mx-auto">
+              <p className="text-lg lg:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed">
                 From saving solo to chipping in as a group, these are the everyday moments where Croows can make a difference.
               </p>
             </div>
