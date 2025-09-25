@@ -2,11 +2,15 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Plus, Target, Users, TrendingUp, ArrowRight, Menu, X, LogOut } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Plus, Target, Users, TrendingUp, ArrowRight, Menu, X, LogOut, Trophy, MessageCircle } from "lucide-react";
 import { SavingsGoalCard } from "@/components/SavingsGoalCard";
 import { AddContributionDialog } from "@/components/AddContributionDialog";
 import { CreateGoalDialog } from "@/components/CreateGoalDialog";
 import { AnimatedSavingsGoals } from "@/components/AnimatedSavingsGoals";
+import { GamificationPanel } from "@/components/GamificationPanel";
+import { GroupsPanel } from "@/components/GroupsPanel";
+import { LeaderboardPanel } from "@/components/LeaderboardPanel";
 import { useAuth } from "@/hooks/useAuth";
 import { SavingsGoal } from "@/types";
 import heroImage from "@/assets/hero-image.jpg";
@@ -832,74 +836,110 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Stats Overview */}
-      <section className="py-8 bg-gradient-to-r from-surface via-background to-surface">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="p-6 bg-surface border-border/50">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-text-secondary">Total saved</p>
-                  <p className="text-2xl font-bold text-text-primary">
-                    {totalSaved.toLocaleString('sv-SE')} kr
-                  </p>
-                </div>
-                <div className="w-12 h-12 bg-success/10 rounded-lg flex items-center justify-center">
-                  <TrendingUp className="w-6 h-6 text-success" />
-                </div>
-              </div>
-            </Card>
-            
-            <Card className="p-6 bg-surface border-border/50">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-text-secondary">Target amount</p>
-                  <p className="text-2xl font-bold text-text-primary">
-                    {totalTarget.toLocaleString('sv-SE')} kr
-                  </p>
-                </div>
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                  <Target className="w-6 h-6 text-primary" />
-                </div>
-              </div>
-            </Card>
-            
-            <Card className="p-6 bg-surface border-border/50">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-text-secondary">Active goals</p>
-                  <p className="text-2xl font-bold text-text-primary">{activeGoals}</p>
-                </div>
-                <div className="w-12 h-12 bg-warning/10 rounded-lg flex items-center justify-center">
-                  <Users className="w-6 h-6 text-warning" />
-                </div>
-              </div>
-            </Card>
-          </div>
-        </div>
-      </section>
+      {/* Tabs Navigation */}
+      <Tabs defaultValue="dashboard" className="w-full">
+        <TabsList className="grid w-full grid-cols-4 mb-6">
+          <TabsTrigger value="dashboard" className="flex items-center gap-2">
+            <Target className="w-4 h-4" />
+            Mål
+          </TabsTrigger>
+          <TabsTrigger value="groups" className="flex items-center gap-2">
+            <Users className="w-4 h-4" />
+            Grupper  
+          </TabsTrigger>
+          <TabsTrigger value="achievements" className="flex items-center gap-2">
+            <Trophy className="w-4 h-4" />
+            Prestationer
+          </TabsTrigger>
+          <TabsTrigger value="leaderboard" className="flex items-center gap-2">
+            <TrendingUp className="w-4 h-4" />
+            Rankning
+          </TabsTrigger>
+        </TabsList>
 
-      {/* Savings Goals */}
-      <section className="py-8">
-        <div className="container mx-auto px-4">
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold text-text-primary mb-2">Active savings goals</h2>
-            <p className="text-text-secondary">
-              Here are your shared savings goals. Click "Contribute" to add money.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {goals.map((goal) => (
-              <SavingsGoalCard
-                key={goal.id}
-                goal={goal}
-                onAddContribution={handleAddContribution}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
+        <TabsContent value="dashboard" className="space-y-8">
+          {/* Stats Overview */}
+          <section className="py-8 bg-gradient-to-r from-surface via-background to-surface">
+            <div className="container mx-auto px-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Card className="p-6 bg-surface border-border/50">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-text-secondary">Totalt sparat</p>
+                      <p className="text-2xl font-bold text-text-primary">
+                        {totalSaved.toLocaleString('sv-SE')} kr
+                      </p>
+                    </div>
+                    <div className="w-12 h-12 bg-success/10 rounded-lg flex items-center justify-center">
+                      <TrendingUp className="w-6 h-6 text-success" />
+                    </div>
+                  </div>
+                </Card>
+                
+                <Card className="p-6 bg-surface border-border/50">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-text-secondary">Målbelopp</p>
+                      <p className="text-2xl font-bold text-text-primary">
+                        {totalTarget.toLocaleString('sv-SE')} kr
+                      </p>
+                    </div>
+                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                      <Target className="w-6 h-6 text-primary" />
+                    </div>
+                  </div>
+                </Card>
+                
+                <Card className="p-6 bg-surface border-border/50">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-text-secondary">Aktiva mål</p>
+                      <p className="text-2xl font-bold text-text-primary">{activeGoals}</p>
+                    </div>
+                    <div className="w-12 h-12 bg-warning/10 rounded-lg flex items-center justify-center">
+                      <Users className="w-6 h-6 text-warning" />
+                    </div>
+                  </div>
+                </Card>
+              </div>
+            </div>
+          </section>
+
+          {/* Savings Goals */}
+          <section className="py-8">
+            <div className="container mx-auto px-4">
+              <div className="mb-8">
+                <h2 className="text-2xl font-bold text-text-primary mb-2">Aktiva sparmål</h2>
+                <p className="text-text-secondary">
+                  Här är dina delade sparmål. Klicka "Bidra" för att spara pengar.
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {goals.map((goal) => (
+                  <SavingsGoalCard
+                    key={goal.id}
+                    goal={goal}
+                    onAddContribution={handleAddContribution}
+                  />
+                ))}
+              </div>
+            </div>
+          </section>
+        </TabsContent>
+
+        <TabsContent value="groups">
+          <GroupsPanel />
+        </TabsContent>
+
+        <TabsContent value="achievements">
+          <GamificationPanel />
+        </TabsContent>
+
+        <TabsContent value="leaderboard">
+          <LeaderboardPanel />
+        </TabsContent>
+      </Tabs>
 
       {/* Dialogs */}
       <AddContributionDialog
