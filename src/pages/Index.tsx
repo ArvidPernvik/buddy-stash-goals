@@ -5,8 +5,7 @@ import { Plus, Target, Users, TrendingUp, ArrowRight, Menu, X } from "lucide-rea
 import { SavingsGoalCard } from "@/components/SavingsGoalCard";
 import { AddContributionDialog } from "@/components/AddContributionDialog";
 import { CreateGoalDialog } from "@/components/CreateGoalDialog";
-import { ContributorDetailsDialog } from "@/components/ContributorDetailsDialog";
-import { SavingsGoal, Contributor } from "@/types";
+import { SavingsGoal } from "@/types";
 import heroImage from "@/assets/hero-image.jpg";
 
 // Mock data with proper typing
@@ -62,21 +61,12 @@ const Index = () => {
   const [showCreateGoalDialog, setShowCreateGoalDialog] = useState(false);
   const [showDashboard, setShowDashboard] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [showContributorDialog, setShowContributorDialog] = useState(false);
-  const [selectedContributor, setSelectedContributor] = useState<Contributor | null>(null);
-  const [contributorGoalTitle, setContributorGoalTitle] = useState("");
 
   const selectedGoal = goals.find(goal => goal.id === selectedGoalId);
 
   const handleAddContribution = (goalId: string) => {
     setSelectedGoalId(goalId);
     setShowContributionDialog(true);
-  };
-
-  const handleContributorClick = (contributor: Contributor, goalTitle: string) => {
-    setSelectedContributor(contributor);
-    setContributorGoalTitle(goalTitle);
-    setShowContributorDialog(true);
   };
 
   const handleContribute = (amount: number, message?: string) => {
@@ -565,7 +555,6 @@ const Index = () => {
                 key={goal.id}
                 goal={goal}
                 onAddContribution={handleAddContribution}
-                onContributorClick={handleContributorClick}
               />
             ))}
           </div>
@@ -584,13 +573,6 @@ const Index = () => {
         open={showCreateGoalDialog}
         onOpenChange={setShowCreateGoalDialog}
         onCreateGoal={handleCreateGoal}
-      />
-      
-      <ContributorDetailsDialog
-        open={showContributorDialog}
-        onOpenChange={setShowContributorDialog}
-        contributor={selectedContributor}
-        goalTitle={contributorGoalTitle}
       />
     </div>
   );

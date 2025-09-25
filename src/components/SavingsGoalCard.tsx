@@ -1,18 +1,19 @@
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Users, Calendar } from "lucide-react";
+import { Plus, Users, Calendar, ChevronDown, ChevronUp } from "lucide-react";
 import { ProgressBar } from "./ProgressBar";
 import { SavingsGoal } from "@/types";
 
 interface SavingsGoalCardProps {
   goal: SavingsGoal;
   onAddContribution: (goalId: string) => void;
-  onContributorClick: (contributor: any, goalTitle: string) => void;
 }
 
-export function SavingsGoalCard({ goal, onAddContribution, onContributorClick }: SavingsGoalCardProps) {
+export function SavingsGoalCard({ goal, onAddContribution }: SavingsGoalCardProps) {
+  const [showContributors, setShowContributors] = useState(false);
   const progress = (goal.currentAmount / goal.targetAmount) * 100;
   const remaining = goal.targetAmount - goal.currentAmount;
 
@@ -59,15 +60,14 @@ export function SavingsGoalCard({ goal, onAddContribution, onContributorClick }:
           )}
 
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
+            <button 
+              onClick={() => setShowContributors(!showContributors)}
+              className="flex items-center gap-2 hover:bg-surface-hover rounded-md px-2 py-1 transition-colors"
+            >
               <Users className="w-4 h-4 text-text-tertiary" />
               <div className="flex -space-x-2">
                 {goal.contributors.slice(0, 4).map((contributor) => (
-                  <Avatar 
-                    key={contributor.id} 
-                    className="w-6 h-6 border-2 border-surface cursor-pointer hover:scale-110 transition-transform"
-                    onClick={() => onContributorClick(contributor, goal.title)}
-                  >
+                  <Avatar key={contributor.id} className="w-6 h-6 border-2 border-surface">
                     <AvatarImage src={contributor.avatar} />
                     <AvatarFallback className="text-xs bg-muted">
                       {contributor.name.slice(0, 2).toUpperCase()}
@@ -82,7 +82,12 @@ export function SavingsGoalCard({ goal, onAddContribution, onContributorClick }:
                   </div>
                 )}
               </div>
-            </div>
+              {showContributors ? (
+                <ChevronUp className="w-4 h-4 text-text-tertiary" />
+              ) : (
+                <ChevronDown className="w-4 h-4 text-text-tertiary" />
+              )}
+            </button>
 
             <Button 
               onClick={() => onAddContribution(goal.id)}
@@ -93,6 +98,32 @@ export function SavingsGoalCard({ goal, onAddContribution, onContributorClick }:
               Bidra
             </Button>
           </div>
+
+          {showContributors && (
+            <div className="mt-4 pt-4 border-t border-border/30">
+              <h4 className="text-sm font-medium text-text-primary mb-3">Contributors</h4>
+              <div className="space-y-2">
+                {goal.contributors.map((contributor) => (
+                  <div key={contributor.id} className="flex items-center justify-between p-2 bg-surface-hover rounded-md">
+                    <div className="flex items-center gap-2">
+                      <Avatar className="w-8 h-8">
+                        <AvatarImage src={contributor.avatar} />
+                        <AvatarFallback className="text-xs bg-muted">
+                          {contributor.name.slice(0, 2).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                      <span className="text-sm font-medium text-text-primary">
+                        {contributor.name}
+                      </span>
+                    </div>
+                    <span className="text-sm font-semibold text-primary">
+                      {contributor.amount.toLocaleString('sv-SE')} kr
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </Card>
