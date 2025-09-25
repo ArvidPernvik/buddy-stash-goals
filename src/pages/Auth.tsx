@@ -107,7 +107,7 @@ const Auth = () => {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Tillbaka till startsidan
           </Button>
-          <h1 className="text-3xl font-bold text-text-primary">SparGrupp</h1>
+          <h1 className="text-3xl font-bold text-text-primary">Croowa</h1>
           <p className="text-text-secondary">
             {isLogin ? 'Logga in på ditt konto' : 'Skapa ett nytt konto'}
           </p>

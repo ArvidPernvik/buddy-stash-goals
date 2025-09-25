@@ -106,7 +106,7 @@ const Index = () => {
         <nav className="fixed top-0 w-full bg-background/95 backdrop-blur-sm border-b border-border z-50">
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between h-16">
-              <div className="text-xl font-bold text-text-primary">SparGrupp</div>
+              <div className="text-xl font-bold text-text-primary">Croowa</div>
               
               {/* Desktop Navigation */}
               <div className="hidden md:flex items-center space-x-8">
@@ -238,7 +238,7 @@ const Index = () => {
                   Planning a trip?
                 </h3>
                 <p className="text-text-secondary">
-                  Set a goal and start saving before you book. Whether it's a weekend getaway or a bucket-list adventure, SparGrupp helps you get there without the money stress.
+                  Set a goal and start saving before you book. Whether it's a weekend getaway or a bucket-list adventure, Croowa helps you get there without the money stress.
                 </p>
               </Card>
               
@@ -254,7 +254,7 @@ const Index = () => {
                   Saving for experiences?
                 </h3>
                 <p className="text-text-secondary">
-                  From music festivals to dream trips to once-in-a-lifetime events, SparGrupp makes sure the money's ready when the moment comes.
+                  From music festivals to dream trips to once-in-a-lifetime events, Croowa makes sure the money's ready when the moment comes.
                 </p>
               </Card>
               
@@ -270,7 +270,7 @@ const Index = () => {
                   Reaching a goal together?
                 </h3>
                 <p className="text-text-secondary">
-                  From family milestones to trips with friends, SparGrupp syncs contributions so progress feels fair, visible, and worth celebrating.
+                  From family milestones to trips with friends, Croowa syncs contributions so progress feels fair, visible, and worth celebrating.
                 </p>
               </Card>
             </div>
@@ -326,7 +326,7 @@ const Index = () => {
                     1. Set a goal
                   </h3>
                   <p className="text-lg text-text-secondary">
-                    From travel to emergency funds, birthdays to big purchases, SparGrupp helps you make it happen.
+                    From travel to emergency funds, birthdays to big purchases, Croowa helps you make it happen.
                   </p>
                 </div>
               </div>
@@ -524,7 +524,7 @@ const Index = () => {
                 Helt gratis
               </h2>
               <p className="text-lg lg:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed">
-                SparGrupp är helt gratis att använda. Inga dolda avgifter, inga prenumerationer.
+                Croowa är helt gratis att använda. Inga dolda avgifter, inga prenumerationer.
               </p>
             </div>
             
@@ -599,7 +599,7 @@ const Index = () => {
                   <div>
                     <h3 className="text-lg font-semibold text-text-primary mb-4">Contact us</h3>
                     <div className="space-y-2 text-text-secondary">
-                      <p>Email: hello@spargrupp.com</p>
+                      <p>Email: hello@croowa.com</p>
                       <p>Phone: +46 123 456 789</p>
                       <p>Address: Stockholm, Sweden</p>
                     </div>
@@ -608,9 +608,9 @@ const Index = () => {
                   <div>
                     <h3 className="text-lg font-semibold text-text-primary mb-4">Follow us</h3>
                     <div className="space-y-2 text-text-secondary">
-                      <p>Twitter: @spargrupp</p>
-                      <p>Instagram: @spargrupp</p>
-                      <p>LinkedIn: SparGrupp</p>
+                      <p>Twitter: @croowa</p>
+                      <p>Instagram: @croowa</p>
+                      <p>LinkedIn: Croowa</p>
                     </div>
                   </div>
                 </div>
@@ -630,7 +630,7 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-8">
               <div>
-                <h1 className="text-2xl font-bold text-text-primary">SparGrupp</h1>
+                <h1 className="text-2xl font-bold text-text-primary">Croowa</h1>
               </div>
               
               {/* Navigation Links */}
