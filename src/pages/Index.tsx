@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Plus, Target, Users, TrendingUp, ArrowRight, Menu, X } from "lucide-react";
+import { Plus, Target, Users, TrendingUp, ArrowRight, Menu, X, LogOut } from "lucide-react";
 import { SavingsGoalCard } from "@/components/SavingsGoalCard";
 import { AddContributionDialog } from "@/components/AddContributionDialog";
 import { CreateGoalDialog } from "@/components/CreateGoalDialog";
 import { AnimatedSavingsGoals } from "@/components/AnimatedSavingsGoals";
+import { useAuth } from "@/hooks/useAuth";
 import { SavingsGoal } from "@/types";
 import heroImage from "@/assets/hero-image.jpg";
 import elderlyPersonImage from "@/assets/elderly-person.png";
@@ -16,12 +18,32 @@ import mountainSuccessImage from "@/assets/mountain-success.png";
 const mockGoals: SavingsGoal[] = [];
 
 const Index = () => {
+  const { user, loading, signOut } = useAuth();
+  const navigate = useNavigate();
   const [goals, setGoals] = useState(mockGoals);
   const [selectedGoalId, setSelectedGoalId] = useState<string | null>(null);
   const [showContributionDialog, setShowContributionDialog] = useState(false);
   const [showCreateGoalDialog, setShowCreateGoalDialog] = useState(false);
   const [showDashboard, setShowDashboard] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/auth');
+    }
+  }, [user, loading, navigate]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-text-primary">Laddar...</div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null;
+  }
 
   const selectedGoal = goals.find(goal => goal.id === selectedGoalId);
 
@@ -87,7 +109,7 @@ const Index = () => {
               <div className="text-xl font-bold text-text-primary">SparGrupp</div>
               
               {/* Desktop Navigation */}
-              <div className="hidden md:flex space-x-8">
+              <div className="hidden md:flex items-center space-x-8">
                 <button onClick={() => scrollToSection('home')} className="text-text-secondary hover:text-text-primary transition-colors">
                   Home
                 </button>
@@ -103,6 +125,15 @@ const Index = () => {
                 <button onClick={() => scrollToSection('contact')} className="text-text-secondary hover:text-text-primary transition-colors">
                   Contact
                 </button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={signOut}
+                  className="text-text-secondary hover:text-text-primary"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logga ut
+                </Button>
               </div>
 
               {/* Mobile menu button */}
