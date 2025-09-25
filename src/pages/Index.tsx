@@ -252,7 +252,7 @@ const Index = () => {
         {/* How it works Section */}
         <section id="how-it-works" className="py-16">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
+            <div className="text-center mb-16">
               <h2 className="text-5xl lg:text-7xl xl:text-8xl font-bold text-text-primary mb-6 leading-tight">
                 How it works
               </h2>
@@ -261,41 +261,228 @@ const Index = () => {
               </p>
             </div>
             
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold text-primary">
-                  1
+            {/* Step 1 */}
+            <div className="mb-16 bg-green-50 rounded-3xl p-8 lg:p-12">
+              <div className="grid lg:grid-cols-2 gap-12 items-center">
+                <div className="bg-white rounded-2xl p-6 shadow-lg">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 text-sm text-text-secondary mb-4">
+                      <span>← Back</span>
+                    </div>
+                    <h3 className="text-2xl font-bold text-text-primary mb-6">Set a goal</h3>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="bg-gray-100 rounded-lg p-3 text-center">
+                        <span className="text-sm">🎂 Birthday</span>
+                      </div>
+                      <div className="bg-gray-100 rounded-lg p-3 text-center">
+                        <span className="text-sm">✈️ Travel</span>
+                      </div>
+                      <div className="bg-gray-100 rounded-lg p-3 text-center">
+                        <span className="text-sm">👥 Hanging out</span>
+                      </div>
+                      <div className="bg-primary text-white rounded-lg p-3 text-center">
+                        <span className="text-sm">🎉 Celebration</span>
+                      </div>
+                      <div className="bg-gray-100 rounded-lg p-3 text-center">
+                        <span className="text-sm">💒 Wedding</span>
+                      </div>
+                      <div className="bg-gray-100 rounded-lg p-3 text-center">
+                        <span className="text-sm">🎁 Gift</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="text-lg font-semibold text-text-primary mb-2">
-                  Create a goal
-                </h3>
-                <p className="text-text-secondary">
-                  Set up your savings goal with a target amount and deadline.
-                </p>
+                
+                <div>
+                  <h3 className="text-3xl font-bold text-text-primary mb-4">
+                    1. Set a goal
+                  </h3>
+                  <p className="text-lg text-text-secondary">
+                    From travel to emergency funds, birthdays to big purchases, SparGrupp helps you make it happen.
+                  </p>
+                </div>
               </div>
-              
-              <div className="text-center">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold text-primary">
-                  2
+            </div>
+
+            {/* Step 2 */}
+            <div className="mb-16 bg-orange-50 rounded-3xl p-8 lg:p-12">
+              <div className="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                  <h3 className="text-3xl font-bold text-text-primary mb-4">
+                    2. Set your savings goal amount
+                  </h3>
+                  <p className="text-lg text-text-secondary">
+                    Set the target amount and the payment frequency that works for you.
+                  </p>
                 </div>
-                <h3 className="text-lg font-semibold text-text-primary mb-2">
-                  Invite friends
-                </h3>
-                <p className="text-text-secondary">
-                  Share your goal with friends and family who want to join.
-                </p>
+                
+                <div className="bg-white rounded-2xl p-6 shadow-lg">
+                  <div className="space-y-6">
+                    <div>
+                      <h4 className="font-semibold mb-3">Contribution amount</h4>
+                      <div className="grid grid-cols-4 gap-2">
+                        <div className="bg-gray-100 rounded-lg p-3 text-center text-sm">$25</div>
+                        <div className="bg-gray-100 rounded-lg p-3 text-center text-sm">$50</div>
+                        <div className="bg-gray-100 rounded-lg p-3 text-center text-sm">$75</div>
+                        <div className="bg-primary text-white rounded-lg p-3 text-center text-sm">$100</div>
+                      </div>
+                      <div className="mt-3">
+                        <div className="bg-gray-100 rounded-lg p-3 text-center text-sm text-text-secondary">
+                          Custom amount
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <h4 className="font-semibold mb-3">Select payment frequency</h4>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div className="bg-gray-100 rounded-lg p-3 text-center text-sm">Every 2 weeks</div>
+                        <div className="bg-gray-100 rounded-lg p-3 text-center text-sm">Monthly</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              
-              <div className="text-center">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold text-primary">
-                  3
+            </div>
+
+            {/* Step 3 */}
+            <div className="mb-16 bg-yellow-50 rounded-3xl p-8 lg:p-12">
+              <div className="grid lg:grid-cols-2 gap-12 items-center">
+                <div className="bg-white rounded-2xl p-6 shadow-lg">
+                  <div className="space-y-4">
+                    <h4 className="font-semibold">Invite members</h4>
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <span className="text-sm text-text-secondary">🔍 Search for contacts</span>
+                    </div>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-primary rounded-full"></div>
+                          <span className="font-medium">Nick Smith</span>
+                        </div>
+                        <div className="w-4 h-4 bg-primary rounded-full"></div>
+                      </div>
+                      <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
+                          <span className="font-medium">Haley Deacon</span>
+                        </div>
+                        <div className="w-4 h-4 border-2 border-gray-300 rounded-full"></div>
+                      </div>
+                      <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
+                          <span className="font-medium">Tina Conner</span>
+                        </div>
+                        <div className="w-4 h-4 border-2 border-gray-300 rounded-full"></div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="text-lg font-semibold text-text-primary mb-2">
-                  Track progress
-                </h3>
-                <p className="text-text-secondary">
-                  Watch your savings grow in real-time as everyone contributes.
-                </p>
+                
+                <div>
+                  <h3 className="text-3xl font-bold text-text-primary mb-4">
+                    3. Invite your friends
+                  </h3>
+                  <p className="text-lg text-text-secondary">
+                    Add your friends to your savings group so everyone can participate. Skip this step if you are saving alone.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Step 4 */}
+            <div className="mb-16 bg-blue-50 rounded-3xl p-8 lg:p-12">
+              <div className="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                  <h3 className="text-3xl font-bold text-text-primary mb-4">
+                    4. Watch your savings grow
+                  </h3>
+                  <p className="text-lg text-text-secondary">
+                    See who's in, who's saving, and how close you are to your goal.
+                  </p>
+                </div>
+                
+                <div className="bg-white rounded-2xl p-6 shadow-lg">
+                  <div className="space-y-4">
+                    <div className="p-4 bg-gray-50 rounded-lg">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-8 h-8 bg-primary rounded-full"></div>
+                        <span className="font-medium">Haley Deacon</span>
+                      </div>
+                      <div className="text-sm text-primary font-semibold">$1,900 / $3,600</div>
+                      <div className="flex gap-1 mt-2">
+                        {[...Array(5)].map((_, i) => (
+                          <div key={i} className="w-3 h-3 bg-primary rounded-full"></div>
+                        ))}
+                        {[...Array(4)].map((_, i) => (
+                          <div key={i} className="w-3 h-3 bg-gray-200 rounded-full"></div>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div className="p-4 bg-gray-50 rounded-lg">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-8 h-8 bg-blue-500 rounded-full"></div>
+                        <div>
+                          <div className="font-medium">Nick Smith</div>
+                          <div className="text-xs text-gray-500">Nice</div>
+                        </div>
+                      </div>
+                      <div className="text-sm text-primary font-semibold">Contribution: $1,800 / $3,600</div>
+                      <div className="flex gap-1 mt-2">
+                        {[...Array(6)].map((_, i) => (
+                          <div key={i} className="w-3 h-3 bg-primary rounded-full"></div>
+                        ))}
+                        {[...Array(6)].map((_, i) => (
+                          <div key={i} className="w-3 h-3 bg-gray-200 rounded-full"></div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Step 5 */}
+            <div className="bg-green-50 rounded-3xl p-8 lg:p-12">
+              <div className="grid lg:grid-cols-2 gap-12 items-center">
+                <div className="bg-white rounded-2xl p-6 shadow-lg">
+                  <div className="text-center space-y-4">
+                    <div className="bg-gray-100 rounded-xl p-6">
+                      <div className="text-sm text-gray-600 mb-2">Hello, Luis!</div>
+                      <div className="text-xs text-gray-500">Savymoolah</div>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <h4 className="text-xl font-bold">Cash out</h4>
+                      <div className="text-sm text-gray-600">Available balance: $3,000</div>
+                      <div className="text-4xl font-bold text-primary">$120</div>
+                      
+                      <div className="bg-blue-600 text-white rounded-lg p-3">
+                        <span className="text-sm">💳 Max Cashout</span>
+                      </div>
+                      
+                      <div className="text-xs text-gray-500">
+                        Transfer cash balance to:<br/>
+                        Bank Checking • x4934
+                      </div>
+                      
+                      <div className="bg-primary text-white rounded-lg p-3">
+                        <span className="text-sm">Transfer to bank</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <h3 className="text-3xl font-bold text-text-primary mb-4">
+                    5. Funds unlock when you're done
+                  </h3>
+                  <p className="text-lg text-text-secondary">
+                    Once your group hits the goal or timeline, the funds unlock and go where they're supposed to. No stress. No surprises.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
