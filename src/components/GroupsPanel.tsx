@@ -128,17 +128,17 @@ export const GroupsPanel = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-text-primary">Spargrupper</h2>
-          <p className="text-text-secondary">Spara tillsammans med vänner och familj</p>
+        <h2 className="text-2xl font-bold text-text-primary">Savings Groups</h2>
+        <p className="text-text-secondary">Save together with friends and family</p>
         </div>
         <div className="flex gap-2">
           <Button onClick={() => setShowJoinDialog(true)} variant="outline">
             <Users className="w-4 h-4 mr-2" />
-            Gå med i grupp
+            Join Group
           </Button>
           <Button onClick={() => setShowCreateDialog(true)}>
             <Plus className="w-4 h-4 mr-2" />
-            Skapa grupp
+            Create Group
           </Button>
         </div>
       </div>
@@ -146,7 +146,7 @@ export const GroupsPanel = () => {
       {/* User's Groups */}
       {groups.length > 0 && (
         <div>
-          <h3 className="text-lg font-semibold text-text-primary mb-4">Mina grupper</h3>
+          <h3 className="text-lg font-semibold text-text-primary mb-4">My Groups</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {groups.map((group) => (
               <Card key={group.id} className="p-6 hover:shadow-lg transition-shadow cursor-pointer">
@@ -170,30 +170,30 @@ export const GroupsPanel = () => {
                   <Badge variant="secondary">{group.role}</Badge>
                 </div>
 
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-text-secondary">Totalt sparat</span>
-                    <span className="font-semibold text-success">{group.total_saved?.toLocaleString('sv-SE')} kr</span>
-                  </div>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-text-secondary">Total saved</span>
+                      <span className="font-semibold text-success">${group.total_saved?.toLocaleString()} </span>
+                    </div>
 
-                  <div className="flex gap-2">
-                    <Button size="sm" variant="outline" className="flex-1">
-                      <MessageCircle className="w-4 h-4 mr-2" />
-                      Chatt
-                    </Button>
-                    <Button size="sm" variant="outline" className="flex-1">
-                      <Trophy className="w-4 h-4 mr-2" />
-                      Rankning
-                    </Button>
-                    <Button 
-                      size="sm" 
-                      variant="outline"
-                      onClick={() => copyInviteCode(group.invite_code)}
-                    >
-                      <Share2 className="w-4 h-4" />
-                    </Button>
+                    <div className="flex gap-2">
+                      <Button size="sm" variant="outline" className="flex-1">
+                        <MessageCircle className="w-4 h-4 mr-2" />
+                        Chat
+                      </Button>
+                      <Button size="sm" variant="outline" className="flex-1">
+                        <Trophy className="w-4 h-4 mr-2" />
+                        Ranking
+                      </Button>
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        onClick={() => copyInviteCode(group.invite_code)}
+                      >
+                        <Share2 className="w-4 h-4" />
+                      </Button>
+                    </div>
                   </div>
-                </div>
               </Card>
             ))}
           </div>

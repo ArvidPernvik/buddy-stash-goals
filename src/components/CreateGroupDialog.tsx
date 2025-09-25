@@ -86,18 +86,18 @@ export const CreateGroupDialog = ({ open, onOpenChange, onGroupCreated }: Create
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Skapa spargrupp</DialogTitle>
-          <DialogDescription>
-            Skapa en ny spargrupp för att spara tillsammans med andra.
-          </DialogDescription>
+        <DialogTitle>Create Savings Group</DialogTitle>
+        <DialogDescription>
+          Create a new savings group to save together with others.
+        </DialogDescription>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Gruppnamn *</Label>
+            <Label htmlFor="name">Group Name *</Label>
             <Input
               id="name"
-              placeholder="T.ex. Vårt drömhem, Sommarresa 2024..."
+              placeholder="e.g. Our Dream Home, Summer Trip 2024..."
               value={formData.name}
               onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
               required
@@ -105,10 +105,10 @@ export const CreateGroupDialog = ({ open, onOpenChange, onGroupCreated }: Create
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">Beskrivning</Label>
+            <Label htmlFor="description">Description</Label>
             <Textarea
               id="description"
-              placeholder="Beskriv vad ni sparar till..."
+              placeholder="Describe what you're saving for..."
               value={formData.description}
               onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
               rows={3}
@@ -122,16 +122,16 @@ export const CreateGroupDialog = ({ open, onOpenChange, onGroupCreated }: Create
               onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_public: checked }))}
             />
             <Label htmlFor="is_public" className="text-sm font-normal">
-              Gör gruppen offentlig (andra kan hitta och gå med)
+              Make group public (others can find and join)
             </Label>
           </div>
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              Avbryt
+              Cancel
             </Button>
             <Button type="submit" disabled={!formData.name.trim() || loading}>
-              {loading ? "Skapar..." : "Skapa grupp"}
+              {loading ? "Creating..." : "Create Group"}
             </Button>
           </DialogFooter>
         </form>

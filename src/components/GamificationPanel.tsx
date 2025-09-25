@@ -106,15 +106,15 @@ export const GamificationPanel = () => {
             <Trophy className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-text-primary">Level {userStats.current_level}</h3>
-            <p className="text-text-secondary">{userStats.total_points} poäng totalt</p>
+          <h3 className="text-lg font-semibold text-text-primary">Level {userStats.current_level}</h3>
+          <p className="text-text-secondary">{userStats.total_points} points total</p>
           </div>
         </div>
         
         <div className="space-y-3">
           <div className="flex justify-between text-sm">
-            <span className="text-text-secondary">Nästa level</span>
-            <span className="text-text-primary font-medium">{getPointsToNextLevel()} poäng kvar</span>
+            <span className="text-text-secondary">Next level</span>
+            <span className="text-text-primary font-medium">{getPointsToNextLevel()} points left</span>
           </div>
           <Progress value={getLevelProgress()} className="h-2" />
         </div>
@@ -124,14 +124,14 @@ export const GamificationPanel = () => {
             <Flame className="w-4 h-4 text-orange-500" />
             <div>
               <div className="font-semibold text-text-primary">{userStats.streak_days}</div>
-              <div className="text-xs text-text-secondary">Dagar i rad</div>
+              <div className="text-xs text-text-secondary">Day streak</div>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <Target className="w-4 h-4 text-green-500" />
             <div>
               <div className="font-semibold text-text-primary">{achievements.filter(a => a.unlocked_at).length}</div>
-              <div className="text-xs text-text-secondary">Prestationer</div>
+              <div className="text-xs text-text-secondary">Achievements</div>
             </div>
           </div>
         </div>
@@ -141,7 +141,7 @@ export const GamificationPanel = () => {
       <Card className="p-6">
         <h3 className="text-lg font-semibold text-text-primary mb-4 flex items-center gap-2">
           <Medal className="w-5 h-5" />
-          Prestationer
+          Achievements
         </h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -167,7 +167,7 @@ export const GamificationPanel = () => {
                   <div className="flex items-center gap-1 mt-1">
                     <Star className="w-3 h-3 text-yellow-500" />
                     <span className="text-xs text-text-secondary">
-                      Låst upp {new Date(achievement.unlocked_at).toLocaleDateString('sv-SE')}
+                      Unlocked {new Date(achievement.unlocked_at).toLocaleDateString('en-US')}
                     </span>
                   </div>
                 )}

@@ -167,23 +167,23 @@ export const LeaderboardPanel = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-text-primary mb-2">Rankningar</h2>
-        <p className="text-text-secondary">Se hur du står dig mot andra sparare</p>
+        <h2 className="text-2xl font-bold text-text-primary mb-2">Rankings</h2>
+        <p className="text-text-secondary">See how you stack up against other savers</p>
       </div>
 
       <Tabs defaultValue="points" className="w-full">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="points" className="flex items-center gap-2">
             <Trophy className="w-4 h-4" />
-            Poäng
+            Points
           </TabsTrigger>
           <TabsTrigger value="savings" className="flex items-center gap-2">
             <TrendingUp className="w-4 h-4" />
-            Sparande
+            Savings
           </TabsTrigger>
           <TabsTrigger value="groups" className="flex items-center gap-2">
             <Users className="w-4 h-4" />
-            Grupper
+            Groups
           </TabsTrigger>
         </TabsList>
 
@@ -191,7 +191,7 @@ export const LeaderboardPanel = () => {
           <Card className="p-6">
             <h3 className="text-lg font-semibold text-text-primary mb-4 flex items-center gap-2">
               <Trophy className="w-5 h-5 text-yellow-500" />
-              Poäng-rankning
+              Points Leaderboard
             </h3>
             
             {getCurrentUserRank(pointsLeaderboard) && (

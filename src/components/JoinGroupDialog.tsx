@@ -43,7 +43,7 @@ export const JoinGroupDialog = ({ open, onOpenChange, onGroupJoined }: JoinGroup
       if (groupError) throw groupError;
 
       if (!group) {
-        setError("Ingen grupp hittades med den inbjudningskoden");
+        setError("No group found with that invite code");
         return;
       }
 
@@ -56,7 +56,7 @@ export const JoinGroupDialog = ({ open, onOpenChange, onGroupJoined }: JoinGroup
         .maybeSingle();
 
       if (existingMember) {
-        setError("Du är redan medlem i den här gruppen");
+        setError("You are already a member of this group");
         return;
       }
 
@@ -78,7 +78,7 @@ export const JoinGroupDialog = ({ open, onOpenChange, onGroupJoined }: JoinGroup
       onOpenChange(false);
     } catch (error) {
       console.error('Error joining group:', error);
-      setError("Ett fel uppstod när du försökte gå med i gruppen");
+      setError("An error occurred while trying to join the group");
     } finally {
       setLoading(false);
     }
@@ -96,18 +96,18 @@ export const JoinGroupDialog = ({ open, onOpenChange, onGroupJoined }: JoinGroup
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Gå med i spargrupp</DialogTitle>
-          <DialogDescription>
-            Ange inbjudningskoden för att gå med i en befintlig spargrupp.
-          </DialogDescription>
+        <DialogTitle>Join Savings Group</DialogTitle>
+        <DialogDescription>
+          Enter the invite code to join an existing savings group.
+        </DialogDescription>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="invite_code">Inbjudningskod *</Label>
+            <Label htmlFor="invite_code">Invite Code *</Label>
             <Input
               id="invite_code"
-              placeholder="Ange 8-siffrig kod..."
+              placeholder="Enter 8-digit code..."
               value={inviteCode}
               onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
               maxLength={8}
@@ -122,18 +122,18 @@ export const JoinGroupDialog = ({ open, onOpenChange, onGroupJoined }: JoinGroup
           <div className="text-sm text-text-secondary">
             <p className="mb-2">💡 Tips:</p>
             <ul className="space-y-1 text-xs">
-              <li>• Inbjudningskoden består av 8 bokstäver/siffror</li>
-              <li>• Fråga gruppledaren om koden</li>
-              <li>• Du kan också hitta offentliga grupper på huvudsidan</li>
+              <li>• Invite code consists of 8 letters/numbers</li>
+              <li>• Ask the group leader for the code</li>
+              <li>• You can also find public groups on the main page</li>
             </ul>
           </div>
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => handleOpenChange(false)}>
-              Avbryt
+              Cancel
             </Button>
             <Button type="submit" disabled={!inviteCode.trim() || loading}>
-              {loading ? "Går med..." : "Gå med"}
+              {loading ? "Joining..." : "Join"}
             </Button>
           </DialogFooter>
         </form>

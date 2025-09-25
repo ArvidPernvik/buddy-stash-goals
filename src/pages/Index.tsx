@@ -11,7 +11,10 @@ import { AnimatedSavingsGoals } from "@/components/AnimatedSavingsGoals";
 import { GamificationPanel } from "@/components/GamificationPanel";
 import { GroupsPanel } from "@/components/GroupsPanel";
 import { LeaderboardPanel } from "@/components/LeaderboardPanel";
+import { PullToRefresh } from "@/components/PullToRefresh";
 import { useAuth } from "@/hooks/useAuth";
+import { useMobileFeatures } from "@/hooks/useMobileFeatures";
+import { useSwipeGestures } from "@/hooks/useSwipeGestures";
 import { SavingsGoal } from "@/types";
 import heroImage from "@/assets/hero-image.jpg";
 import elderlyPersonImage from "@/assets/elderly-person.png";
@@ -30,12 +33,36 @@ const Index = () => {
   const [showCreateGoalDialog, setShowCreateGoalDialog] = useState(false);
   const [showDashboard, setShowDashboard] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("dashboard");
+
+  // Mobile features
+  const { hapticFeedback, isNative } = useMobileFeatures();
+
+  // Swipe gestures for tab navigation
+  useSwipeGestures({
+    onSwipeLeft: () => {
+      const tabs = ["dashboard", "groups", "achievements", "leaderboard"];
+      const currentIndex = tabs.indexOf(activeTab);
+      if (currentIndex < tabs.length - 1) {
+        setActiveTab(tabs[currentIndex + 1]);
+        hapticFeedback('light');
+      }
+    },
+    onSwipeRight: () => {
+      const tabs = ["dashboard", "groups", "achievements", "leaderboard"];
+      const currentIndex = tabs.indexOf(activeTab);
+      if (currentIndex > 0) {
+        setActiveTab(tabs[currentIndex - 1]);
+        hapticFeedback('light');
+      }
+    }
+  });
 
   useEffect(() => {
     if (!loading && !user) {
       navigate('/auth');
     } else if (user) {
-      // Automatiskt visa dashboard för inloggade användare
+      // Automatically show dashboard for logged in users
       setShowDashboard(true);
     }
   }, [user, loading, navigate]);
@@ -43,7 +70,7 @@ const Index = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-text-primary">Laddar...</div>
+        <div className="text-text-primary">Loading...</div>
       </div>
     );
   }
@@ -57,6 +84,7 @@ const Index = () => {
   const handleAddContribution = (goalId: string) => {
     setSelectedGoalId(goalId);
     setShowContributionDialog(true);
+    hapticFeedback('light');
   };
 
   const handleContribute = (amount: number, message?: string) => {
@@ -92,11 +120,20 @@ const Index = () => {
       contributors: [],
     };
     setGoals(prevGoals => [goal, ...prevGoals]);
+    hapticFeedback('medium');
   };
 
   const totalSaved = goals.reduce((sum, goal) => sum + goal.currentAmount, 0);
   const totalTarget = goals.reduce((sum, goal) => sum + goal.targetAmount, 0);
   const activeGoals = goals.filter(goal => goal.currentAmount < goal.targetAmount).length;
+
+  // Refresh data function for pull-to-refresh
+  const refreshData = async () => {
+    // Simulate data refresh
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    // In a real app, you'd refetch data from your API here
+    hapticFeedback('medium');
+  };
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -781,177 +818,173 @@ const Index = () => {
       <header className="border-b border-border bg-surface/50 backdrop-blur-sm sticky top-0 z-40">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-8">
-              <div>
-                <h1 className="text-2xl font-bold text-text-primary">Croowa</h1>
+              <div className="flex items-center space-x-8">
+                <div>
+                  <h1 className="text-2xl font-bold text-text-primary">Croowa</h1>
+                </div>
+                
+                {/* Navigation Links */}
+                <div className="hidden md:flex space-x-6">
+                  <button onClick={() => {setShowDashboard(false); setTimeout(() => scrollToSection('saving-methods'), 100)}} className="text-text-secondary hover:text-text-primary transition-colors">
+                    Saving methods
+                  </button>
+                  <button onClick={() => {setShowDashboard(false); setTimeout(() => scrollToSection('how-it-works'), 100)}} className="text-text-secondary hover:text-text-primary transition-colors">
+                    How it works
+                  </button>
+                  <button onClick={() => {setShowDashboard(false); setTimeout(() => scrollToSection('pricing'), 100)}} className="text-text-secondary hover:text-text-primary transition-colors">
+                    Pricing
+                  </button>
+                  <button onClick={() => {setShowDashboard(false); setTimeout(() => scrollToSection('contact'), 100)}} className="text-text-secondary hover:text-text-primary transition-colors">
+                    Contact
+                  </button>
+                </div>
               </div>
               
-              {/* Navigation Links */}
-              <div className="hidden md:flex space-x-6">
-                <button onClick={() => setShowDashboard(false)} className="text-text-secondary hover:text-text-primary transition-colors">
-                  Home
+              <div className="flex items-center space-x-4">
+                {/* Mobile menu button */}
+                <button 
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="md:hidden p-2"
+                >
+                  {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                 </button>
-                <button onClick={() => {setShowDashboard(false); setTimeout(() => scrollToSection('saving-methods'), 100)}} className="text-text-secondary hover:text-text-primary transition-colors">
-                  Saving methods
-                </button>
-                <button onClick={() => {setShowDashboard(false); setTimeout(() => scrollToSection('how-it-works'), 100)}} className="text-text-secondary hover:text-text-primary transition-colors">
-                  How it works
-                </button>
-                <button onClick={() => {setShowDashboard(false); setTimeout(() => scrollToSection('pricing'), 100)}} className="text-text-secondary hover:text-text-primary transition-colors">
-                  Pricing
-                </button>
-                <button onClick={() => {setShowDashboard(false); setTimeout(() => scrollToSection('contact'), 100)}} className="text-text-secondary hover:text-text-primary transition-colors">
-                  Contact
-                </button>
+                
+                <Button 
+                  onClick={() => setShowCreateGoalDialog(true)}
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  New goal
+                </Button>
               </div>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              {/* Mobile menu button */}
-              <button 
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden p-2"
-              >
-                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </button>
-              
-              <Button 
-                onClick={() => setShowCreateGoalDialog(true)}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground"
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                New goal
-              </Button>
-            </div>
           </div>
           
           {/* Mobile Navigation */}
           {mobileMenuOpen && (
             <div className="md:hidden py-4 space-y-2 border-t border-border mt-4">
-              <button onClick={() => {setShowDashboard(false); setMobileMenuOpen(false)}} className="block w-full text-left py-2 text-text-secondary hover:text-text-primary">
-                Home
-              </button>
-              <button onClick={() => {setShowDashboard(false); setMobileMenuOpen(false); setTimeout(() => scrollToSection('saving-methods'), 100)}} className="block w-full text-left py-2 text-text-secondary hover:text-text-primary">
-                Saving methods
-              </button>
-              <button onClick={() => {setShowDashboard(false); setMobileMenuOpen(false); setTimeout(() => scrollToSection('how-it-works'), 100)}} className="block w-full text-left py-2 text-text-secondary hover:text-text-primary">
-                How it works
-              </button>
-              <button onClick={() => {setShowDashboard(false); setMobileMenuOpen(false); setTimeout(() => scrollToSection('pricing'), 100)}} className="block w-full text-left py-2 text-text-secondary hover:text-text-primary">
-                Pricing
-              </button>
-              <button onClick={() => {setShowDashboard(false); setMobileMenuOpen(false); setTimeout(() => scrollToSection('contact'), 100)}} className="block w-full text-left py-2 text-text-secondary hover:text-text-primary">
-                Contact
-              </button>
+                <button onClick={() => {setShowDashboard(false); setMobileMenuOpen(false); setTimeout(() => scrollToSection('saving-methods'), 100)}} className="block w-full text-left py-2 text-text-secondary hover:text-text-primary">
+                  Saving methods
+                </button>
+                <button onClick={() => {setShowDashboard(false); setMobileMenuOpen(false); setTimeout(() => scrollToSection('how-it-works'), 100)}} className="block w-full text-left py-2 text-text-secondary hover:text-text-primary">
+                  How it works
+                </button>
+                <button onClick={() => {setShowDashboard(false); setMobileMenuOpen(false); setTimeout(() => scrollToSection('pricing'), 100)}} className="block w-full text-left py-2 text-text-secondary hover:text-text-primary">
+                  Pricing
+                </button>
+                <button onClick={() => {setShowDashboard(false); setMobileMenuOpen(false); setTimeout(() => scrollToSection('contact'), 100)}} className="block w-full text-left py-2 text-text-secondary hover:text-text-primary">
+                  Contact
+                </button>
             </div>
           )}
         </div>
       </header>
 
-      {/* Tabs Navigation */}
-      <Tabs defaultValue="dashboard" className="w-full">
-        <TabsList className="grid w-full grid-cols-4 mb-6">
-          <TabsTrigger value="dashboard" className="flex items-center gap-2">
-            <Target className="w-4 h-4" />
-            Mål
-          </TabsTrigger>
-          <TabsTrigger value="groups" className="flex items-center gap-2">
-            <Users className="w-4 h-4" />
-            Grupper  
-          </TabsTrigger>
-          <TabsTrigger value="achievements" className="flex items-center gap-2">
-            <Trophy className="w-4 h-4" />
-            Prestationer
-          </TabsTrigger>
-          <TabsTrigger value="leaderboard" className="flex items-center gap-2">
-            <TrendingUp className="w-4 h-4" />
-            Rankning
-          </TabsTrigger>
-        </TabsList>
+      {/* Tabs Navigation with Pull-to-Refresh */}
+      <PullToRefresh onRefresh={refreshData}>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <TabsList className="grid w-full grid-cols-4 mb-6">
+            <TabsTrigger value="dashboard" className="flex items-center gap-2">
+              <Target className="w-4 h-4" />
+              Goals
+            </TabsTrigger>
+            <TabsTrigger value="groups" className="flex items-center gap-2">
+              <Users className="w-4 h-4" />
+              Groups  
+            </TabsTrigger>
+            <TabsTrigger value="achievements" className="flex items-center gap-2">
+              <Trophy className="w-4 h-4" />
+              Achievements
+            </TabsTrigger>
+            <TabsTrigger value="leaderboard" className="flex items-center gap-2">
+              <TrendingUp className="w-4 h-4" />
+              Leaderboard
+            </TabsTrigger>
+          </TabsList>
 
-        <TabsContent value="dashboard" className="space-y-8">
-          {/* Stats Overview */}
-          <section className="py-8 bg-gradient-to-r from-surface via-background to-surface">
-            <div className="container mx-auto px-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Card className="p-6 bg-surface border-border/50">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-text-secondary">Totalt sparat</p>
-                      <p className="text-2xl font-bold text-text-primary">
-                        {totalSaved.toLocaleString('sv-SE')} kr
-                      </p>
+          <TabsContent value="dashboard" className="space-y-8">
+            {/* Stats Overview */}
+            <section className="py-8 bg-gradient-to-r from-surface via-background to-surface">
+              <div className="container mx-auto px-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <Card className="p-6 bg-surface border-border/50">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-text-secondary">Total Saved</p>
+                        <p className="text-2xl font-bold text-text-primary">
+                          ${totalSaved.toLocaleString()}
+                        </p>
+                      </div>
+                      <div className="w-12 h-12 bg-success/10 rounded-lg flex items-center justify-center">
+                        <TrendingUp className="w-6 h-6 text-success" />
+                      </div>
                     </div>
-                    <div className="w-12 h-12 bg-success/10 rounded-lg flex items-center justify-center">
-                      <TrendingUp className="w-6 h-6 text-success" />
+                  </Card>
+                  
+                  <Card className="p-6 bg-surface border-border/50">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-text-secondary">Target Amount</p>
+                        <p className="text-2xl font-bold text-text-primary">
+                          ${totalTarget.toLocaleString()}
+                        </p>
+                      </div>
+                      <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                        <Target className="w-6 h-6 text-primary" />
+                      </div>
                     </div>
-                  </div>
-                </Card>
+                  </Card>
+                  
+                  <Card className="p-6 bg-surface border-border/50">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-text-secondary">Active Goals</p>
+                        <p className="text-2xl font-bold text-text-primary">{activeGoals}</p>
+                      </div>
+                      <div className="w-12 h-12 bg-warning/10 rounded-lg flex items-center justify-center">
+                        <Users className="w-6 h-6 text-warning" />
+                      </div>
+                    </div>
+                  </Card>
+                </div>
+              </div>
+            </section>
+
+            {/* Savings Goals */}
+            <section className="py-8">
+              <div className="container mx-auto px-4">
+                <div className="mb-8">
+                  <h2 className="text-2xl font-bold text-text-primary mb-2">Active Savings Goals</h2>
+                  <p className="text-text-secondary">
+                    Here are your shared savings goals. Tap "Contribute" to add money.
+                  </p>
+                </div>
                 
-                <Card className="p-6 bg-surface border-border/50">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-text-secondary">Målbelopp</p>
-                      <p className="text-2xl font-bold text-text-primary">
-                        {totalTarget.toLocaleString('sv-SE')} kr
-                      </p>
-                    </div>
-                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                      <Target className="w-6 h-6 text-primary" />
-                    </div>
-                  </div>
-                </Card>
-                
-                <Card className="p-6 bg-surface border-border/50">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-text-secondary">Aktiva mål</p>
-                      <p className="text-2xl font-bold text-text-primary">{activeGoals}</p>
-                    </div>
-                    <div className="w-12 h-12 bg-warning/10 rounded-lg flex items-center justify-center">
-                      <Users className="w-6 h-6 text-warning" />
-                    </div>
-                  </div>
-                </Card>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {goals.map((goal) => (
+                    <SavingsGoalCard
+                      key={goal.id}
+                      goal={goal}
+                      onAddContribution={handleAddContribution}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-          </section>
+            </section>
+          </TabsContent>
 
-          {/* Savings Goals */}
-          <section className="py-8">
-            <div className="container mx-auto px-4">
-              <div className="mb-8">
-                <h2 className="text-2xl font-bold text-text-primary mb-2">Aktiva sparmål</h2>
-                <p className="text-text-secondary">
-                  Här är dina delade sparmål. Klicka "Bidra" för att spara pengar.
-                </p>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {goals.map((goal) => (
-                  <SavingsGoalCard
-                    key={goal.id}
-                    goal={goal}
-                    onAddContribution={handleAddContribution}
-                  />
-                ))}
-              </div>
-            </div>
-          </section>
-        </TabsContent>
+          <TabsContent value="groups">
+            <GroupsPanel />
+          </TabsContent>
 
-        <TabsContent value="groups">
-          <GroupsPanel />
-        </TabsContent>
+          <TabsContent value="achievements">
+            <GamificationPanel />
+          </TabsContent>
 
-        <TabsContent value="achievements">
-          <GamificationPanel />
-        </TabsContent>
-
-        <TabsContent value="leaderboard">
-          <LeaderboardPanel />
-        </TabsContent>
-      </Tabs>
+          <TabsContent value="leaderboard">
+            <LeaderboardPanel />
+          </TabsContent>
+        </Tabs>
+      </PullToRefresh>
 
       {/* Dialogs */}
       <AddContributionDialog
