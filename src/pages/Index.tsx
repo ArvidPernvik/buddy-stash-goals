@@ -586,7 +586,7 @@ const Index = () => {
                 Get in touch
               </h2>
               <p className="text-lg lg:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed">
-                Vi är här för att hjälpa dig. Kontakta oss så återkommer vi så snart som möjligt.
+                Vi är här för att hjälpa dig. Kontakta oss så svarar vi direkt.
               </p>
             </div>
             
@@ -670,7 +670,7 @@ const Index = () => {
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                        <span className="text-primary">📧</span>
+                        <span className="text-primary font-semibold">@</span>
                       </div>
                       <div>
                         <p className="font-medium text-text-primary">E-post</p>
@@ -680,7 +680,7 @@ const Index = () => {
                     
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                        <span className="text-primary">📞</span>
+                        <span className="text-primary font-semibold">Tel</span>
                       </div>
                       <div>
                         <p className="font-medium text-text-primary">Telefon</p>
@@ -690,7 +690,7 @@ const Index = () => {
                     
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                        <span className="text-primary">📍</span>
+                        <span className="text-primary font-semibold">SE</span>
                       </div>
                       <div>
                         <p className="font-medium text-text-primary">Adress</p>
@@ -705,7 +705,7 @@ const Index = () => {
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                        <span className="text-primary">🐦</span>
+                        <span className="text-primary font-semibold">X</span>
                       </div>
                       <div>
                         <p className="font-medium text-text-primary">Twitter</p>
@@ -715,7 +715,7 @@ const Index = () => {
                     
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                        <span className="text-primary">📸</span>
+                        <span className="text-primary font-semibold">IG</span>
                       </div>
                       <div>
                         <p className="font-medium text-text-primary">Instagram</p>
@@ -725,7 +725,7 @@ const Index = () => {
                     
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                        <span className="text-primary">💼</span>
+                        <span className="text-primary font-semibold">in</span>
                       </div>
                       <div>
                         <p className="font-medium text-text-primary">LinkedIn</p>
@@ -736,18 +736,18 @@ const Index = () => {
                 </Card>
                 
                 <Card className="p-6 bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
-                  <h3 className="text-lg font-semibold text-text-primary mb-2">Öppettider</h3>
+                  <h3 className="text-lg font-semibold text-text-primary mb-2">Tillgänglighet</h3>
                   <p className="text-text-secondary text-sm mb-4">
-                    Vi svarar på alla meddelanden inom 24 timmar.
+                    Vi svarar på alla meddelanden direkt och är tillgängliga dygnet runt.
                   </p>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-text-secondary">Måndag - Fredag</span>
-                      <span className="text-text-primary font-medium">09:00 - 17:00</span>
+                      <span className="text-text-secondary">Support</span>
+                      <span className="text-text-primary font-medium">24/7</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-text-secondary">Helger</span>
-                      <span className="text-text-primary font-medium">Stängt</span>
+                      <span className="text-text-secondary">Svarstid</span>
+                      <span className="text-text-primary font-medium">Direkt</span>
                     </div>
                   </div>
                 </Card>
