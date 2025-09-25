@@ -183,7 +183,7 @@ const Index = () => {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="space-y-8">
                 <div className="space-y-4">
-                  <h1 className="text-4xl lg:text-6xl font-bold text-text-primary leading-tight">
+                  <h1 className="text-4xl lg:text-6xl font-bold text-text-primary leading-relaxed">
                     Save Smarter.
                     <br />
                     <span className="text-text-secondary">Save Together.</span>
