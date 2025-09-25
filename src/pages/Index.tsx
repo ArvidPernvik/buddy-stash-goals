@@ -531,9 +531,6 @@ const Index = () => {
             <div className="max-w-2xl mx-auto">
               <Card className="p-12 bg-gradient-to-br from-success/5 to-success/10 border-success/20 shadow-lg">
                 <div className="text-center">
-                  <div className="w-20 h-20 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <span className="text-3xl">✨</span>
-                  </div>
                   <h3 className="text-3xl font-bold text-text-primary mb-4">Gratis för alltid</h3>
                   <div className="text-6xl font-bold text-success mb-8">
                     0 kr
@@ -582,39 +579,179 @@ const Index = () => {
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="py-16">
+        <section id="contact" className="py-16 bg-surface/50">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <h2 className="text-5xl lg:text-7xl xl:text-8xl font-bold text-text-primary mb-6 leading-tight">
                 Get in touch
               </h2>
               <p className="text-lg lg:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed">
-                Have questions? We'd love to hear from you.
+                Vi är här för att hjälpa dig. Kontakta oss så återkommer vi så snart som möjligt.
               </p>
             </div>
             
-            <div className="max-w-2xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+              {/* Contact Form */}
               <Card className="p-8 bg-surface border-border/50">
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div>
-                    <h3 className="text-lg font-semibold text-text-primary mb-4">Contact us</h3>
-                    <div className="space-y-2 text-text-secondary">
-                      <p>Email: hello@croowa.com</p>
-                      <p>Phone: +46 123 456 789</p>
-                      <p>Address: Stockholm, Sweden</p>
+                <h3 className="text-2xl font-bold text-text-primary mb-6">Skicka ett meddelande</h3>
+                <form className="space-y-6">
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-text-primary mb-2">
+                        Förnamn
+                      </label>
+                      <input
+                        type="text"
+                        className="w-full px-3 py-2 border border-border rounded-lg bg-background text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                        placeholder="Ditt förnamn"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-text-primary mb-2">
+                        Efternamn
+                      </label>
+                      <input
+                        type="text"
+                        className="w-full px-3 py-2 border border-border rounded-lg bg-background text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                        placeholder="Ditt efternamn"
+                      />
                     </div>
                   </div>
                   
                   <div>
-                    <h3 className="text-lg font-semibold text-text-primary mb-4">Follow us</h3>
-                    <div className="space-y-2 text-text-secondary">
-                      <p>Twitter: @croowa</p>
-                      <p>Instagram: @croowa</p>
-                      <p>LinkedIn: Croowa</p>
+                    <label className="block text-sm font-medium text-text-primary mb-2">
+                      E-post
+                    </label>
+                    <input
+                      type="email"
+                      className="w-full px-3 py-2 border border-border rounded-lg bg-background text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                      placeholder="din.email@exempel.se"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-text-primary mb-2">
+                      Ämne
+                    </label>
+                    <select className="w-full px-3 py-2 border border-border rounded-lg bg-background text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+                      <option value="">Välj ett ämne</option>
+                      <option value="support">Teknisk support</option>
+                      <option value="feature">Funktionsförslag</option>
+                      <option value="billing">Fakturering</option>
+                      <option value="partnership">Partnerskap</option>
+                      <option value="other">Övrigt</option>
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-text-primary mb-2">
+                      Meddelande
+                    </label>
+                    <textarea
+                      rows={4}
+                      className="w-full px-3 py-2 border border-border rounded-lg bg-background text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary resize-none"
+                      placeholder="Beskriv ditt ärende..."
+                    ></textarea>
+                  </div>
+                  
+                  <Button 
+                    type="submit"
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+                  >
+                    Skicka meddelande
+                  </Button>
+                </form>
+              </Card>
+              
+              {/* Contact Information */}
+              <div className="space-y-8">
+                <Card className="p-6 bg-surface border-border/50">
+                  <h3 className="text-lg font-semibold text-text-primary mb-4">Kontakta oss direkt</h3>
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                        <span className="text-primary">📧</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-text-primary">E-post</p>
+                        <p className="text-text-secondary">hello@croowa.com</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                        <span className="text-primary">📞</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-text-primary">Telefon</p>
+                        <p className="text-text-secondary">+46 123 456 789</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                        <span className="text-primary">📍</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-text-primary">Adress</p>
+                        <p className="text-text-secondary">Stockholm, Sverige</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Card>
+                </Card>
+                
+                <Card className="p-6 bg-surface border-border/50">
+                  <h3 className="text-lg font-semibold text-text-primary mb-4">Följ oss</h3>
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                        <span className="text-primary">🐦</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-text-primary">Twitter</p>
+                        <p className="text-text-secondary">@croowa</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                        <span className="text-primary">📸</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-text-primary">Instagram</p>
+                        <p className="text-text-secondary">@croowa</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                        <span className="text-primary">💼</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-text-primary">LinkedIn</p>
+                        <p className="text-text-secondary">Croowa</p>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+                
+                <Card className="p-6 bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
+                  <h3 className="text-lg font-semibold text-text-primary mb-2">Öppettider</h3>
+                  <p className="text-text-secondary text-sm mb-4">
+                    Vi svarar på alla meddelanden inom 24 timmar.
+                  </p>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-text-secondary">Måndag - Fredag</span>
+                      <span className="text-text-primary font-medium">09:00 - 17:00</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-text-secondary">Helger</span>
+                      <span className="text-text-primary font-medium">Stängt</span>
+                    </div>
+                  </div>
+                </Card>
+              </div>
             </div>
           </div>
         </section>
