@@ -37,7 +37,7 @@ export function SavingsGoalCard({ goal, onAddContribution }: SavingsGoalCardProp
           
           <div className="flex items-center justify-between text-sm">
             <span className="text-text-secondary">
-              {goal.currentAmount.toLocaleString('sv-SE')} kr av {goal.targetAmount.toLocaleString('sv-SE')} kr
+              ${goal.currentAmount.toLocaleString('en-US')} of ${goal.targetAmount.toLocaleString('en-US')}
             </span>
             <span className="text-text-tertiary font-medium">
               {progress.toFixed(1)}%
@@ -47,7 +47,7 @@ export function SavingsGoalCard({ goal, onAddContribution }: SavingsGoalCardProp
           {remaining > 0 && (
             <div className="text-sm text-text-secondary">
               <span className="font-medium text-warning">
-                {remaining.toLocaleString('sv-SE')} kr kvar
+                ${remaining.toLocaleString('en-US')} remaining
               </span>
             </div>
           )}
@@ -95,7 +95,7 @@ export function SavingsGoalCard({ goal, onAddContribution }: SavingsGoalCardProp
               className="bg-primary hover:bg-primary/90 text-primary-foreground"
             >
               <Plus className="w-4 h-4 mr-1" />
-              Bidra
+              Contribute
             </Button>
           </div>
 
@@ -117,7 +117,7 @@ export function SavingsGoalCard({ goal, onAddContribution }: SavingsGoalCardProp
                       </span>
                     </div>
                     <span className="text-sm font-semibold text-primary">
-                      {contributor.amount.toLocaleString('sv-SE')} kr
+                      ${contributor.amount.toLocaleString('en-US')}
                     </span>
                   </div>
                 ))}

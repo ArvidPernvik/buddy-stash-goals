@@ -47,10 +47,10 @@ export const SocialFeatures = ({ targetType, targetId, groupId }: SocialFeatures
   const [sendingMessage, setSendingMessage] = useState(false);
 
   const reactionTypes = [
-    { type: 'like', icon: ThumbsUp, label: 'Gilla' },
-    { type: 'love', icon: Heart, label: 'Älska' },
-    { type: 'celebrate', icon: Star, label: 'Fira' },
-    { type: 'smile', icon: Smile, label: 'Le' }
+    { type: 'like', icon: ThumbsUp, label: 'Like' },
+    { type: 'love', icon: Heart, label: 'Love' },
+    { type: 'celebrate', icon: Star, label: 'Celebrate' },
+    { type: 'smile', icon: Smile, label: 'Smile' }
   ];
 
   useEffect(() => {
@@ -74,7 +74,7 @@ export const SocialFeatures = ({ targetType, targetId, groupId }: SocialFeatures
       if (data) {
         const processedReactions = data.map((reaction: any) => ({
           ...reaction,
-          user_name: reaction.profiles?.display_name || 'Okänd användare'
+          user_name: reaction.profiles?.display_name || 'Unknown user'
         }));
         setReactions(processedReactions);
       }
@@ -100,7 +100,7 @@ export const SocialFeatures = ({ targetType, targetId, groupId }: SocialFeatures
       if (data) {
         const processedMessages = data.map((message: any) => ({
           ...message,
-          user_name: message.profiles?.display_name || 'Okänd användare'
+          user_name: message.profiles?.display_name || 'Unknown user'
         }));
         setChatMessages(processedMessages);
       }
@@ -174,8 +174,8 @@ export const SocialFeatures = ({ targetType, targetId, groupId }: SocialFeatures
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'Kolla mitt sparframsteg på Croowa!',
-          text: 'Jag gör stora framsteg mot mitt sparmål. Häng med och spara tillsammans!',
+          title: 'Check out my savings progress on Croowa!',
+          text: 'I\'m making great progress towards my savings goal. Join me and save together!',
           url: window.location.href
         });
       } catch (error) {
@@ -207,11 +207,11 @@ export const SocialFeatures = ({ targetType, targetId, groupId }: SocialFeatures
         <div className="flex items-center justify-between mb-4">
           <h4 className="font-semibold text-text-primary flex items-center gap-2">
             <Heart className="w-4 h-4" />
-            Reaktioner
+            Reactions
           </h4>
           <Button variant="outline" size="sm" onClick={shareProgress}>
             <Share2 className="w-4 h-4 mr-2" />
-            Dela
+            Share
           </Button>
         </div>
 
@@ -241,7 +241,7 @@ export const SocialFeatures = ({ targetType, targetId, groupId }: SocialFeatures
         {reactions.length > 0 && (
           <div className="mt-3 text-sm text-text-secondary">
             {reactions.slice(0, 3).map(reaction => reaction.user_name).join(', ')}
-            {reactions.length > 3 && ` och ${reactions.length - 3} till`} reagerade
+            {reactions.length > 3 && ` and ${reactions.length - 3} others`} reacted
           </div>
         )}
       </Card>
@@ -251,7 +251,7 @@ export const SocialFeatures = ({ targetType, targetId, groupId }: SocialFeatures
         <Card className="p-4">
           <h4 className="font-semibold text-text-primary mb-4 flex items-center gap-2">
             <MessageCircle className="w-4 h-4" />
-            Gruppchatt
+            Group Chat
           </h4>
 
           <div className="space-y-3 max-h-60 overflow-y-auto mb-4">
@@ -270,7 +270,7 @@ export const SocialFeatures = ({ targetType, targetId, groupId }: SocialFeatures
                       {message.user_name}
                     </span>
                     <span className="text-xs text-text-secondary">
-                      {new Date(message.created_at).toLocaleDateString('sv-SE')}
+                      {new Date(message.created_at).toLocaleDateString('en-US')}
                     </span>
                   </div>
                   <p className="text-sm text-text-secondary">{message.message}</p>
@@ -281,14 +281,14 @@ export const SocialFeatures = ({ targetType, targetId, groupId }: SocialFeatures
             {chatMessages.length === 0 && (
               <div className="text-center py-8 text-text-secondary">
                 <Users className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                <p className="text-sm">Inga meddelanden än. Starta konversationen!</p>
+                <p className="text-sm">No messages yet. Start the conversation!</p>
               </div>
             )}
           </div>
 
           <div className="flex gap-2">
             <Textarea
-              placeholder="Skriv ett meddelande..."
+              placeholder="Write a message..."
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               rows={2}

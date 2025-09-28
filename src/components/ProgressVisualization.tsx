@@ -131,7 +131,7 @@ export const ProgressVisualization = ({ goalId }: ProgressVisualizationProps) =>
       {/* Main Progress */}
       <Card className="p-6">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-text-primary">Framsteg</h3>
+          <h3 className="text-lg font-semibold text-text-primary">Progress</h3>
           <Badge variant={isCompleted ? "default" : "secondary"} className="bg-success text-success-foreground">
             {progressPercentage.toFixed(1)}%
           </Badge>
@@ -142,10 +142,10 @@ export const ProgressVisualization = ({ goalId }: ProgressVisualizationProps) =>
           
           <div className="flex justify-between text-sm">
             <span className="text-text-secondary">
-              {progressData.current_amount.toLocaleString('sv-SE')} kr
+              ${progressData.current_amount.toLocaleString('en-US')}
             </span>
             <span className="text-text-secondary">
-              {progressData.target_amount.toLocaleString('sv-SE')} kr
+              ${progressData.target_amount.toLocaleString('en-US')}
             </span>
           </div>
 
@@ -155,14 +155,14 @@ export const ProgressVisualization = ({ goalId }: ProgressVisualizationProps) =>
                 <Calendar className="w-4 h-4 text-primary" />
                 <div>
                   <div className="font-semibold text-text-primary">{progressData.days_remaining}</div>
-                  <div className="text-xs text-text-secondary">Dagar kvar</div>
+                  <div className="text-xs text-text-secondary">Days remaining</div>
                 </div>
               </div>
               <div className="flex items-center gap-2 p-3 bg-muted/50 rounded-lg">
                 <Target className="w-4 h-4 text-orange-500" />
                 <div>
-                  <div className="font-semibold text-text-primary">{progressData.daily_target.toLocaleString('sv-SE')} kr</div>
-                  <div className="text-xs text-text-secondary">Per dag</div>
+                  <div className="font-semibold text-text-primary">${progressData.daily_target.toLocaleString('en-US')}</div>
+                  <div className="text-xs text-text-secondary">Per day</div>
                 </div>
               </div>
             </div>
@@ -174,14 +174,14 @@ export const ProgressVisualization = ({ goalId }: ProgressVisualizationProps) =>
       <Card className="p-6">
         <h3 className="text-lg font-semibold text-text-primary mb-4 flex items-center gap-2">
           <TrendingUp className="w-5 h-5" />
-          Veckans aktivitet
+          Weekly Activity
         </h3>
         
         <div className="grid grid-cols-7 gap-2">
           {progressData.weekly_progress.map((day, index) => (
             <div key={day.date} className="text-center">
               <div className="text-xs text-text-secondary mb-1">
-                {new Date(day.date).toLocaleDateString('sv-SE', { weekday: 'short' })}
+                {new Date(day.date).toLocaleDateString('en-US', { weekday: 'short' })}
               </div>
               <div 
                 className="h-16 bg-primary/10 rounded flex items-end justify-center relative overflow-hidden"
@@ -203,7 +203,7 @@ export const ProgressVisualization = ({ goalId }: ProgressVisualizationProps) =>
       <Card className="p-6">
         <h3 className="text-lg font-semibold text-text-primary mb-4 flex items-center gap-2">
           <Zap className="w-5 h-5" />
-          Milstolpar
+          Milestones
         </h3>
         
         <div className="space-y-3">
@@ -224,16 +224,16 @@ export const ProgressVisualization = ({ goalId }: ProgressVisualizationProps) =>
               
               <div className="flex-1">
                 <div className="font-medium text-text-primary">
-                  {milestone.percentage}% av målet
+                  {milestone.percentage}% of goal
                 </div>
                 {milestone.unlocked && milestone.unlocked_at && (
                   <div className="text-sm text-success">
-                    Uppnått {new Date(milestone.unlocked_at).toLocaleDateString('sv-SE')}
+                    Reached {new Date(milestone.unlocked_at).toLocaleDateString('en-US')}
                   </div>
                 )}
                 {!milestone.unlocked && (
                   <div className="text-sm text-text-secondary">
-                    {((milestone.percentage / 100) * progressData.target_amount).toLocaleString('sv-SE')} kr
+                    ${((milestone.percentage / 100) * progressData.target_amount).toLocaleString('en-US')}
                   </div>
                 )}
               </div>
@@ -250,17 +250,17 @@ export const ProgressVisualization = ({ goalId }: ProgressVisualizationProps) =>
 
       {/* Quick Actions */}
       <Card className="p-6">
-        <h3 className="text-lg font-semibold text-text-primary mb-4">Snabbåtgärder</h3>
+        <h3 className="text-lg font-semibold text-text-primary mb-4">Quick Actions</h3>
         
         <div className="grid grid-cols-2 gap-3">
           <Button variant="outline" className="flex items-center gap-2">
             <TrendingUp className="w-4 h-4" />
-            Visa statistik
+            View Statistics
             <ChevronRight className="w-4 h-4 ml-auto" />
           </Button>
           <Button variant="outline" className="flex items-center gap-2">
             <Target className="w-4 h-4" />
-            Dela framsteg
+            Share Progress
             <ChevronRight className="w-4 h-4 ml-auto" />
           </Button>
         </div>

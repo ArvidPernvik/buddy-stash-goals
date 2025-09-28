@@ -53,7 +53,7 @@ export const LeaderboardPanel = () => {
       if (pointsData) {
         const processedPoints = pointsData.map((entry: any, index) => ({
           user_id: entry.user_id,
-          display_name: entry.profiles?.display_name || 'Okänd användare',
+          display_name: entry.profiles?.display_name || 'Unknown user',
           total_points: entry.total_points,
           streak_days: entry.streak_days,
           rank: index + 1
@@ -75,7 +75,7 @@ export const LeaderboardPanel = () => {
           if (!acc[contrib.user_id]) {
             acc[contrib.user_id] = {
               user_id: contrib.user_id,
-              display_name: contrib.profiles?.display_name || 'Okänd användare',
+              display_name: contrib.profiles?.display_name || 'Unknown user',
               total_saved: 0
             };
           }
@@ -202,12 +202,12 @@ export const LeaderboardPanel = () => {
                   </div>
                   <Avatar className="w-10 h-10">
                     <div className="w-full h-full bg-primary/20 flex items-center justify-center">
-                      <span className="text-primary font-semibold">Du</span>
+                      <span className="text-primary font-semibold">You</span>
                     </div>
                   </Avatar>
                   <div className="flex-1">
-                    <div className="font-semibold text-text-primary">Din position</div>
-                    <div className="text-sm text-text-secondary">{getCurrentUserRank(pointsLeaderboard)!.total_points} poäng</div>
+                    <div className="font-semibold text-text-primary">Your position</div>
+                    <div className="text-sm text-text-secondary">{getCurrentUserRank(pointsLeaderboard)!.total_points} points</div>
                   </div>
                 </div>
               </Card>
@@ -234,10 +234,10 @@ export const LeaderboardPanel = () => {
                   <div className="flex-1">
                     <div className="font-semibold text-text-primary">{entry.display_name}</div>
                     <div className="text-sm text-text-secondary">
-                      {entry.streak_days} dagar i rad
+                      {entry.streak_days} day streak
                     </div>
                   </div>
-                  <Badge variant="secondary">{entry.total_points} poäng</Badge>
+                  <Badge variant="secondary">{entry.total_points} points</Badge>
                 </div>
               ))}
             </div>
@@ -248,7 +248,7 @@ export const LeaderboardPanel = () => {
           <Card className="p-6">
             <h3 className="text-lg font-semibold text-text-primary mb-4 flex items-center gap-2">
               <TrendingUp className="w-5 h-5 text-green-500" />
-              Sparande-rankning
+              Savings Leaderboard
             </h3>
             
             <div className="space-y-3">
@@ -271,10 +271,10 @@ export const LeaderboardPanel = () => {
                   </Avatar>
                   <div className="flex-1">
                     <div className="font-semibold text-text-primary">{entry.display_name}</div>
-                    <div className="text-sm text-text-secondary">Totalt sparat</div>
+                    <div className="text-sm text-text-secondary">Total saved</div>
                   </div>
                   <Badge variant="outline" className="text-success border-success/20">
-                    {entry.total_saved?.toLocaleString('sv-SE')} kr
+                    ${entry.total_saved?.toLocaleString('en-US')}
                   </Badge>
                 </div>
               ))}
@@ -286,7 +286,7 @@ export const LeaderboardPanel = () => {
           <Card className="p-6">
             <h3 className="text-lg font-semibold text-text-primary mb-4 flex items-center gap-2">
               <Users className="w-5 h-5 text-blue-500" />
-              Grupp-rankning
+              Group Leaderboard
             </h3>
             
             <div className="space-y-3">
@@ -305,10 +305,10 @@ export const LeaderboardPanel = () => {
                   </Avatar>
                   <div className="flex-1">
                     <div className="font-semibold text-text-primary">{group.group_name}</div>
-                    <div className="text-sm text-text-secondary">{group.member_count} medlemmar</div>
+                    <div className="text-sm text-text-secondary">{group.member_count} members</div>
                   </div>
                   <Badge variant="outline" className="text-blue-500 border-blue-500/20">
-                    {group.total_saved.toLocaleString('sv-SE')} kr
+                    ${group.total_saved.toLocaleString('en-US')}
                   </Badge>
                 </div>
               ))}
