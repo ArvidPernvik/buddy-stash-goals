@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Target, Users, TrendingUp, ArrowRight, Menu, X, LogOut, Trophy, MessageCircle } from "lucide-react";
+import { Plus, Target, Users, TrendingUp, ArrowRight, Menu, X, LogOut, Trophy, MessageCircle, User } from "lucide-react";
 import { SavingsGoalCard } from "@/components/SavingsGoalCard";
 import { AddContributionDialog } from "@/components/AddContributionDialog";
 import { CreateGoalDialog } from "@/components/CreateGoalDialog";
@@ -12,6 +12,9 @@ import { GamificationPanel } from "@/components/GamificationPanel";
 import { GroupsPanel } from "@/components/GroupsPanel";
 import { LeaderboardPanel } from "@/components/LeaderboardPanel";
 import { PullToRefresh } from "@/components/PullToRefresh";
+import { ProfileDialog } from "@/components/ProfileDialog";
+import { EditProfileDialog } from "@/components/EditProfileDialog";
+import { UserSearch } from "@/components/UserSearch";
 import { useAuth } from "@/hooks/useAuth";
 import { useMobileFeatures } from "@/hooks/useMobileFeatures";
 import { useSwipeGestures } from "@/hooks/useSwipeGestures";
@@ -35,6 +38,8 @@ const Index = () => {
   const [showDashboard, setShowDashboard] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("dashboard");
+  const [showProfileDialog, setShowProfileDialog] = useState(false);
+  const [showEditProfileDialog, setShowEditProfileDialog] = useState(false);
 
   // Mobile features
   const { hapticFeedback, isNative } = useMobileFeatures();
@@ -225,6 +230,15 @@ const Index = () => {
                 <Button
                   variant="ghost"
                   size="sm"
+                  onClick={() => setShowProfileDialog(true)}
+                  className="text-text-secondary hover:text-text-primary"
+                >
+                  <User className="w-4 h-4 mr-2" />
+                  Profile
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={signOut}
                   className="text-text-secondary hover:text-text-primary"
                 >
@@ -260,6 +274,15 @@ const Index = () => {
                 <button onClick={() => scrollToSection('contact')} className="block w-full text-left py-2 text-text-secondary hover:text-text-primary">
                   Contact
                 </button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowProfileDialog(true)}
+                  className="w-full justify-start text-text-secondary hover:text-text-primary"
+                >
+                  <User className="w-4 h-4 mr-2" />
+                  Profile
+                </Button>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -909,6 +932,7 @@ const Index = () => {
                   <Plus className="w-4 h-4 mr-2" />
                   New goal
                 </Button>
+                <UserSearch />
               </div>
           </div>
           
@@ -1051,6 +1075,23 @@ const Index = () => {
         open={showCreateGoalDialog}
         onOpenChange={setShowCreateGoalDialog}
         onCreateGoal={handleCreateGoal}
+      />
+
+      <ProfileDialog
+        open={showProfileDialog}
+        onOpenChange={setShowProfileDialog}
+        onEditProfile={() => {
+          setShowProfileDialog(false);
+          setShowEditProfileDialog(true);
+        }}
+      />
+
+      <EditProfileDialog
+        open={showEditProfileDialog}
+        onOpenChange={setShowEditProfileDialog}
+        onProfileUpdated={() => {
+          // Could refresh data here if needed
+        }}
       />
     </div>
   );

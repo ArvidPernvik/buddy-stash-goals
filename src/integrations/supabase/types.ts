@@ -44,6 +44,42 @@ export type Database = {
         }
         Relationships: []
       }
+      friends: {
+        Row: {
+          created_at: string
+          follower_id: string
+          following_id: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          follower_id: string
+          following_id: string
+          id?: string
+        }
+        Update: {
+          created_at?: string
+          follower_id?: string
+          following_id?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "friends_follower_id_fkey"
+            columns: ["follower_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "friends_following_id_fkey"
+            columns: ["following_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       goal_contributions: {
         Row: {
           amount: number
@@ -174,28 +210,40 @@ export type Database = {
       }
       profiles: {
         Row: {
+          avatar_url: string | null
+          bio: string | null
           created_at: string
           display_name: string | null
           email: string | null
           id: string
+          location: string | null
           updated_at: string
           user_id: string
+          website: string | null
         }
         Insert: {
+          avatar_url?: string | null
+          bio?: string | null
           created_at?: string
           display_name?: string | null
           email?: string | null
           id?: string
+          location?: string | null
           updated_at?: string
           user_id: string
+          website?: string | null
         }
         Update: {
+          avatar_url?: string | null
+          bio?: string | null
           created_at?: string
           display_name?: string | null
           email?: string | null
           id?: string
+          location?: string | null
           updated_at?: string
           user_id?: string
+          website?: string | null
         }
         Relationships: []
       }
@@ -389,6 +437,16 @@ export type Database = {
       get_group_total_contributions: {
         Args: { group_uuid: string }
         Returns: number
+      }
+      get_user_stats: {
+        Args: { user_uuid: string }
+        Returns: {
+          completed_goals: number
+          followers_count: number
+          following_count: number
+          total_goals: number
+          total_saved: number
+        }[]
       }
       is_group_member: {
         Args: { _group_id: string; _user_id: string }
