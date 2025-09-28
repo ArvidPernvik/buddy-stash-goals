@@ -3,11 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar } from "@/components/ui/avatar";
-import { Plus, Users, MessageCircle, Trophy, Share2, Crown } from "lucide-react";
+import { Plus, Users, MessageCircle, Trophy, Share2, Crown, DollarSign, Copy } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
 import { CreateGroupDialog } from "./CreateGroupDialog";
 import { JoinGroupDialog } from "./JoinGroupDialog";
+import { AddGroupContributionDialog } from "./AddGroupContributionDialog";
 
 interface SavingsGroup {
   id: string;
@@ -25,11 +27,14 @@ interface SavingsGroup {
 
 export const GroupsPanel = () => {
   const { user } = useAuth();
+  const { toast } = useToast();
   const [groups, setGroups] = useState<SavingsGroup[]>([]);
   const [publicGroups, setPublicGroups] = useState<SavingsGroup[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [showJoinDialog, setShowJoinDialog] = useState(false);
+  const [showContributionDialog, setShowContributionDialog] = useState(false);
+  const [selectedGroup, setSelectedGroup] = useState<SavingsGroup | null>(null);
 
   useEffect(() => {
     if (!user) return;
@@ -116,10 +121,23 @@ export const GroupsPanel = () => {
   const copyInviteCode = async (inviteCode: string) => {
     try {
       await navigator.clipboard.writeText(inviteCode);
-      // Could add a toast notification here
+      toast({
+        title: "Invite code copied!",
+        description: `Code ${inviteCode} copied to clipboard. Share it with your friends!`,
+      });
     } catch (error) {
       console.error('Error copying invite code:', error);
+      toast({
+        title: "Error",
+        description: "Failed to copy invite code",
+        variant: "destructive",
+      });
     }
+  };
+
+  const handleAddContribution = (group: SavingsGroup) => {
+    setSelectedGroup(group);
+    setShowContributionDialog(true);
   };
 
   if (loading) {
@@ -190,21 +208,45 @@ export const GroupsPanel = () => {
                       <span className="font-semibold text-success">${group.total_saved?.toLocaleString()} </span>
                     </div>
 
-                    <div className="flex gap-2">
-                      <Button size="sm" variant="outline" className="flex-1">
-                        <MessageCircle className="w-4 h-4 mr-2" />
-                        Chat
-                      </Button>
-                      <Button size="sm" variant="outline" className="flex-1">
-                        <Trophy className="w-4 h-4 mr-2" />
-                        Ranking
-                      </Button>
+                    {/* Invite Code Display */}
+                    <div className="bg-muted/50 rounded-lg p-3 border border-dashed">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-xs text-text-secondary font-medium">Invite Code</p>
+                          <p className="text-lg font-mono font-bold text-primary">{group.invite_code}</p>
+                        </div>
+                        <Button 
+                          size="sm" 
+                          variant="ghost"
+                          onClick={() => copyInviteCode(group.invite_code)}
+                          className="h-8 w-8 p-0"
+                        >
+                          <Copy className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <p className="text-xs text-text-secondary mt-1">Share this code with friends!</p>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2">
                       <Button 
                         size="sm" 
                         variant="outline"
-                        onClick={() => copyInviteCode(group.invite_code)}
+                        onClick={() => handleAddContribution(group)}
                       >
-                        <Share2 className="w-4 h-4" />
+                        <DollarSign className="w-4 h-4 mr-1" />
+                        Add Money
+                      </Button>
+                      <Button size="sm" variant="outline">
+                        <MessageCircle className="w-4 h-4 mr-1" />
+                        Chat
+                      </Button>
+                      <Button size="sm" variant="outline">
+                        <Trophy className="w-4 h-4 mr-1" />
+                        Ranking
+                      </Button>
+                      <Button size="sm" variant="outline">
+                        <Users className="w-4 h-4 mr-1" />
+                        Members
                       </Button>
                     </div>
                   </div>
@@ -289,6 +331,15 @@ export const GroupsPanel = () => {
         onOpenChange={setShowJoinDialog}
         onGroupJoined={fetchGroups}
       />
+      {selectedGroup && (
+        <AddGroupContributionDialog
+          open={showContributionDialog}
+          onOpenChange={setShowContributionDialog}
+          groupId={selectedGroup.id}
+          groupName={selectedGroup.name}
+          onContributionAdded={fetchGroups}
+        />
+      )}
     </div>
   );
 };
