@@ -72,8 +72,43 @@ const Index = () => {
     } else if (user) {
       // Automatically show dashboard for logged in users
       setShowDashboard(true);
+      // Fetch user's goals when logged in
+      fetchGoals();
     }
   }, [user, loading, navigate]);
+
+  const fetchGoals = async () => {
+    if (!user?.id) return;
+
+    try {
+      const { data, error } = await supabase
+        .from('savings_goals')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching goals:', error);
+        return;
+      }
+
+      // Transform database data to match our frontend format
+      const transformedGoals = (data || []).map(goal => ({
+        id: goal.id,
+        title: goal.title,
+        description: goal.description || '',
+        targetAmount: goal.target_amount / 100, // Convert from cents
+        currentAmount: goal.current_amount / 100, // Convert from cents
+        category: goal.category,
+        deadline: goal.deadline,
+        contributors: [] // We'll add contributor fetching later if needed
+      }));
+
+      setGoals(transformedGoals);
+    } catch (error) {
+      console.error('Unexpected error fetching goals:', error);
+    }
+  };
 
   if (loading) {
     return (
@@ -113,6 +148,31 @@ const Index = () => {
 
       if (error) {
         console.error('Error creating contribution:', error);
+        return;
+      }
+
+      // Get current goal amount and update it
+      const { data: goalData, error: fetchError } = await supabase
+        .from('savings_goals')
+        .select('current_amount')
+        .eq('id', selectedGoalId)
+        .single();
+
+      if (fetchError) {
+        console.error('Error fetching goal:', fetchError);
+        return;
+      }
+
+      const newAmount = goalData.current_amount + Math.round(amount * 100);
+      
+      // Update the goal's current amount in the database
+      const { error: updateError } = await supabase
+        .from('savings_goals')
+        .update({ current_amount: newAmount })
+        .eq('id', selectedGoalId);
+
+      if (updateError) {
+        console.error('Error updating goal amount:', updateError);
         return;
       }
 
@@ -171,9 +231,13 @@ const Index = () => {
 
       // Add to local state for immediate UI update
       const goal = {
-        ...newGoal,
         id: createdGoal.id,
+        title: newGoal.title,
+        description: newGoal.description,
+        targetAmount: newGoal.targetAmount,
         currentAmount: 0,
+        category: newGoal.category,
+        deadline: newGoal.deadline,
         contributors: [],
       };
       setGoals(prevGoals => [goal, ...prevGoals]);
