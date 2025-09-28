@@ -10,6 +10,9 @@ import { useToast } from "@/hooks/use-toast";
 import { CreateGroupDialog } from "./CreateGroupDialog";
 import { JoinGroupDialog } from "./JoinGroupDialog";
 import { AddGroupContributionDialog } from "./AddGroupContributionDialog";
+import { GroupMembersDialog } from "./GroupMembersDialog";
+import { GroupChatDialog } from "./GroupChatDialog";
+import { GroupRankingDialog } from "./GroupRankingDialog";
 
 interface SavingsGroup {
   id: string;
@@ -34,6 +37,9 @@ export const GroupsPanel = () => {
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [showJoinDialog, setShowJoinDialog] = useState(false);
   const [showContributionDialog, setShowContributionDialog] = useState(false);
+  const [showMembersDialog, setShowMembersDialog] = useState(false);
+  const [showChatDialog, setShowChatDialog] = useState(false);
+  const [showRankingDialog, setShowRankingDialog] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState<SavingsGroup | null>(null);
 
   useEffect(() => {
@@ -140,6 +146,21 @@ export const GroupsPanel = () => {
     setShowContributionDialog(true);
   };
 
+  const handleShowMembers = (group: SavingsGroup) => {
+    setSelectedGroup(group);
+    setShowMembersDialog(true);
+  };
+
+  const handleShowChat = (group: SavingsGroup) => {
+    setSelectedGroup(group);
+    setShowChatDialog(true);
+  };
+
+  const handleShowRanking = (group: SavingsGroup) => {
+    setSelectedGroup(group);
+    setShowRankingDialog(true);
+  };
+
   if (loading) {
     return (
       <div className="space-y-4">
@@ -236,15 +257,27 @@ export const GroupsPanel = () => {
                         <DollarSign className="w-4 h-4 mr-1" />
                         Add Money
                       </Button>
-                      <Button size="sm" variant="outline">
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        onClick={() => handleShowChat(group)}
+                      >
                         <MessageCircle className="w-4 h-4 mr-1" />
                         Chat
                       </Button>
-                      <Button size="sm" variant="outline">
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        onClick={() => handleShowRanking(group)}
+                      >
                         <Trophy className="w-4 h-4 mr-1" />
                         Ranking
                       </Button>
-                      <Button size="sm" variant="outline">
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        onClick={() => handleShowMembers(group)}
+                      >
                         <Users className="w-4 h-4 mr-1" />
                         Members
                       </Button>
@@ -332,13 +365,34 @@ export const GroupsPanel = () => {
         onGroupJoined={fetchGroups}
       />
       {selectedGroup && (
-        <AddGroupContributionDialog
-          open={showContributionDialog}
-          onOpenChange={setShowContributionDialog}
-          groupId={selectedGroup.id}
-          groupName={selectedGroup.name}
-          onContributionAdded={fetchGroups}
-        />
+        <>
+          <AddGroupContributionDialog
+            open={showContributionDialog}
+            onOpenChange={setShowContributionDialog}
+            groupId={selectedGroup.id}
+            groupName={selectedGroup.name}
+            onContributionAdded={fetchGroups}
+          />
+          <GroupMembersDialog
+            open={showMembersDialog}
+            onOpenChange={setShowMembersDialog}
+            groupId={selectedGroup.id}
+            groupName={selectedGroup.name}
+            inviteCode={selectedGroup.invite_code}
+          />
+          <GroupChatDialog
+            open={showChatDialog}
+            onOpenChange={setShowChatDialog}
+            groupId={selectedGroup.id}
+            groupName={selectedGroup.name}
+          />
+          <GroupRankingDialog
+            open={showRankingDialog}
+            onOpenChange={setShowRankingDialog}
+            groupId={selectedGroup.id}
+            groupName={selectedGroup.name}
+          />
+        </>
       )}
     </div>
   );
