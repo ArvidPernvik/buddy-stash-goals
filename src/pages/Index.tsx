@@ -16,6 +16,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useMobileFeatures } from "@/hooks/useMobileFeatures";
 import { useSwipeGestures } from "@/hooks/useSwipeGestures";
 import { SavingsGoal } from "@/types";
+import { supabase } from "@/integrations/supabase/client";
 import heroImage from "@/assets/hero-image.jpg";
 import elderlyPersonImage from "@/assets/elderly-person.png";
 import groupPeopleImage from "@/assets/group-people.png";
@@ -87,40 +88,92 @@ const Index = () => {
     hapticFeedback('light');
   };
 
-  const handleContribute = (amount: number, message?: string) => {
-    if (!selectedGoalId) return;
+  const handleContribute = async (amount: number, message?: string) => {
+    if (!selectedGoalId || !user) return;
     
-    setGoals(prevGoals => 
-      prevGoals.map(goal => 
-        goal.id === selectedGoalId 
-          ? { 
-              ...goal, 
-              currentAmount: goal.currentAmount + amount,
-              contributors: [
-                ...goal.contributors,
-                { id: Date.now().toString(), name: "Du", amount }
-              ]
-            }
-          : goal
-      )
-    );
+    try {
+      // Create a contribution record in the database
+      const { error } = await supabase
+        .from('goal_contributions')
+        .insert([
+          {
+            goal_id: selectedGoalId,
+            user_id: user.id,
+            amount: Math.round(amount * 100), // Convert to cents for integer storage
+            message: message || null
+          }
+        ]);
+
+      if (error) {
+        console.error('Error creating contribution:', error);
+        return;
+      }
+
+      // Update the local state to reflect the contribution
+      setGoals(prevGoals => 
+        prevGoals.map(goal => 
+          goal.id === selectedGoalId 
+            ? { 
+                ...goal, 
+                currentAmount: goal.currentAmount + amount,
+                contributors: [
+                  ...goal.contributors,
+                  { id: Date.now().toString(), name: "You", amount }
+                ]
+              }
+            : goal
+        )
+      );
+    } catch (error) {
+      console.error('Unexpected error creating contribution:', error);
+    }
   };
 
-  const handleCreateGoal = (newGoal: {
+  const handleCreateGoal = async (newGoal: {
     title: string;
     description: string;
     targetAmount: number;
     category: string;
     deadline?: string;
   }) => {
-    const goal = {
-      ...newGoal,
-      id: Date.now().toString(),
-      currentAmount: 0,
-      contributors: [],
-    };
-    setGoals(prevGoals => [goal, ...prevGoals]);
-    hapticFeedback('medium');
+    if (!user) return;
+
+    try {
+      // Create the goal in the database
+      const { data: createdGoal, error } = await supabase
+        .from('savings_goals')
+        .insert([
+          {
+            user_id: user.id,
+            title: newGoal.title,
+            description: newGoal.description,
+            target_amount: Math.round(newGoal.targetAmount * 100), // Convert to cents
+            category: newGoal.category,
+            deadline: newGoal.deadline || null,
+            current_amount: 0,
+            is_public: false
+          }
+        ])
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Error creating goal:', error);
+        return;
+      }
+
+      // Add to local state for immediate UI update
+      const goal = {
+        ...newGoal,
+        id: createdGoal.id,
+        currentAmount: 0,
+        contributors: [],
+      };
+      setGoals(prevGoals => [goal, ...prevGoals]);
+      hapticFeedback('medium');
+    } catch (error) {
+      console.error('Unexpected error creating goal:', error);
+    }
   };
 
   const totalSaved = goals.reduce((sum, goal) => sum + goal.currentAmount, 0);

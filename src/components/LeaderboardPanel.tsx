@@ -61,25 +61,36 @@ export const LeaderboardPanel = () => {
         setPointsLeaderboard(processedPoints);
       }
 
-      // Savings leaderboard - get total saved per user
+      // Savings leaderboard - get total saved per user from contributions
       const { data: savingsData } = await supabase
         .from('goal_contributions')
         .select(`
           user_id,
-          amount,
-          profiles(display_name)
+          amount
         `);
 
       if (savingsData) {
+        // Get user profiles separately to avoid relationship issues
+        const userIds = [...new Set(savingsData.map(contrib => contrib.user_id))];
+        const { data: profilesData } = await supabase
+          .from('profiles')
+          .select('user_id, display_name')
+          .in('user_id', userIds);
+
+        const profilesMap = profilesData?.reduce((acc: any, profile: any) => {
+          acc[profile.user_id] = profile.display_name;
+          return acc;
+        }, {}) || {};
+
         const userSavings = savingsData.reduce((acc: any, contrib: any) => {
           if (!acc[contrib.user_id]) {
             acc[contrib.user_id] = {
               user_id: contrib.user_id,
-              display_name: contrib.profiles?.display_name || 'Unknown user',
+              display_name: profilesMap[contrib.user_id] || 'Unknown user',
               total_saved: 0
             };
           }
-          acc[contrib.user_id].total_saved += contrib.amount;
+          acc[contrib.user_id].total_saved += contrib.amount / 100; // Convert from cents
           return acc;
         }, {});
 
@@ -94,32 +105,36 @@ export const LeaderboardPanel = () => {
         setSavingsLeaderboard(sortedSavings as LeaderboardEntry[]);
       }
 
-      // Groups leaderboard
+      // Groups leaderboard - simplified to avoid complex nested queries
       const { data: groupsData } = await supabase
         .from('savings_groups')
-        .select(`
-          id,
-          name,
-          group_members(count),
-          savings_goals(goal_contributions(amount))
-        `)
+        .select('id, name')
         .eq('is_public', true);
 
       if (groupsData) {
-        const processedGroups = groupsData
-          .map((group: any) => {
-            const totalSaved = group.savings_goals?.reduce((sum: number, goal: any) => {
-              return sum + (goal.goal_contributions?.reduce((goalSum: number, contrib: any) => goalSum + contrib.amount, 0) || 0);
-            }, 0) || 0;
+        const processedGroups = await Promise.all(
+          groupsData.map(async (group: any) => {
+            // Get member count
+            const { count: memberCount } = await supabase
+              .from('group_members')
+              .select('*', { count: 'exact', head: true })
+              .eq('group_id', group.id);
+
+            // Get total saved using our custom function
+            const { data: totalSaved } = await supabase
+              .rpc('get_group_total_contributions', { group_uuid: group.id });
 
             return {
               group_id: group.id,
               group_name: group.name,
-              total_saved: totalSaved,
-              member_count: group.group_members?.[0]?.count || 0,
+              total_saved: (totalSaved || 0) / 100, // Convert from cents
+              member_count: memberCount || 0,
               rank: 0
             };
           })
+        );
+
+        const sortedGroups = processedGroups
           .sort((a, b) => b.total_saved - a.total_saved)
           .slice(0, 10)
           .map((group, index) => ({
@@ -127,7 +142,7 @@ export const LeaderboardPanel = () => {
             rank: index + 1
           }));
 
-        setGroupsLeaderboard(processedGroups);
+        setGroupsLeaderboard(sortedGroups);
       }
     } catch (error) {
       console.error('Error fetching leaderboards:', error);

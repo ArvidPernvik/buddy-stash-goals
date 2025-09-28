@@ -38,17 +38,17 @@ export const GroupsPanel = () => {
 
   const fetchGroups = async () => {
     try {
-      // Fetch user's groups
+      // Fetch user's groups with member role
       const { data: userGroups } = await supabase
         .from('savings_groups')
         .select(`
           *,
-          group_members!inner(role),
-          goal_contributions:savings_goals(amount)
+          group_members!inner(role)
         `)
         .eq('group_members.user_id', user!.id);
 
       // Fetch public groups (excluding user's groups)
+      const userGroupIds = userGroups?.map(g => g.id) || [];
       const { data: availableGroups } = await supabase
         .from('savings_groups')
         .select(`
@@ -56,21 +56,35 @@ export const GroupsPanel = () => {
           group_members(count)
         `)
         .eq('is_public', true)
-        .not('id', 'in', `(${userGroups?.map(g => g.id).join(',') || 'null'})`);
+        .not('id', 'in', `(${userGroupIds.length > 0 ? userGroupIds.join(',') : 'null'})`);
 
       if (userGroups) {
-        const processedUserGroups = userGroups.map((group: any) => ({
-          ...group,
-          role: group.group_members[0]?.role,
-          total_saved: group.goal_contributions?.reduce((sum: number, contrib: any) => sum + contrib.amount, 0) || 0
+        // Calculate total saved for each group using our custom function
+        const processedUserGroups = await Promise.all(userGroups.map(async (group: any) => {
+          const { data: totalSaved } = await supabase
+            .rpc('get_group_total_contributions', { group_uuid: group.id });
+          
+          return {
+            ...group,
+            role: group.group_members[0]?.role,
+            total_saved: totalSaved || 0
+          };
         }));
         setGroups(processedUserGroups);
       }
 
       if (availableGroups) {
-        const processedAvailableGroups = availableGroups.map((group: any) => ({
-          ...group,
-          member_count: group.group_members?.[0]?.count || 0
+        // Count members for public groups
+        const processedAvailableGroups = await Promise.all(availableGroups.map(async (group: any) => {
+          const { count } = await supabase
+            .from('group_members')
+            .select('*', { count: 'exact', head: true })
+            .eq('group_id', group.id);
+            
+          return {
+            ...group,
+            member_count: count || 0
+          };
         }));
         setPublicGroups(processedAvailableGroups);
       }
