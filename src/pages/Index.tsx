@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Target, Users, TrendingUp, ArrowRight, Menu, X, LogOut, Trophy, MessageCircle, User } from "lucide-react";
+import { Plus, Target, Users, TrendingUp, ArrowRight, Menu, X, LogOut, Trophy, MessageCircle, User, Search } from "lucide-react";
 import { SavingsGoalCard } from "@/components/SavingsGoalCard";
 import { AddContributionDialog } from "@/components/AddContributionDialog";
 import { CreateGoalDialog } from "@/components/CreateGoalDialog";
@@ -40,6 +40,7 @@ const Index = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [showProfileDialog, setShowProfileDialog] = useState(false);
   const [showEditProfileDialog, setShowEditProfileDialog] = useState(false);
+  const [showUserSearch, setShowUserSearch] = useState(false);
 
   // Mobile features
   const { hapticFeedback, isNative } = useMobileFeatures();
@@ -932,7 +933,14 @@ const Index = () => {
                   <Plus className="w-4 h-4 mr-2" />
                   New goal
                 </Button>
-                <UserSearch />
+                <Button 
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowUserSearch(true)}
+                >
+                  <Search className="w-4 h-4 mr-2" />
+                  Find Friends
+                </Button>
               </div>
           </div>
           
@@ -1092,6 +1100,11 @@ const Index = () => {
         onProfileUpdated={() => {
           // Could refresh data here if needed
         }}
+      />
+
+      <UserSearch
+        open={showUserSearch}
+        onOpenChange={setShowUserSearch}
       />
     </div>
   );
