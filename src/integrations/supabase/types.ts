@@ -390,6 +390,10 @@ export type Database = {
         Args: { group_uuid: string }
         Returns: number
       }
+      is_group_member: {
+        Args: { _group_id: string; _user_id: string }
+        Returns: boolean
+      }
       update_user_points: {
         Args: { points_to_add: number; user_uuid: string }
         Returns: undefined
