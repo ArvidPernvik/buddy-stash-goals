@@ -5,17 +5,22 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Users, Calendar, ChevronDown, ChevronUp } from "lucide-react";
 import { ProgressBar } from "./ProgressBar";
+import { AICoach } from "./AICoach";
 import { SavingsGoal } from "@/types";
 
 interface SavingsGoalCardProps {
   goal: SavingsGoal;
-  onAddContribution: (goalId: string) => void;
+  onAddContribution: (goalId: string, suggestedAmount?: number) => void;
 }
 
 export function SavingsGoalCard({ goal, onAddContribution }: SavingsGoalCardProps) {
   const [showContributors, setShowContributors] = useState(false);
   const progress = (goal.currentAmount / goal.targetAmount) * 100;
   const remaining = goal.targetAmount - goal.currentAmount;
+
+  const handleUseRecommendation = (amount: number) => {
+    onAddContribution(goal.id, amount);
+  };
 
   return (
     <Card className="bg-gradient-to-br from-surface to-surface-hover border-border/50 shadow-[var(--shadow-medium)] hover:shadow-[var(--shadow-large)] transition-all duration-300 hover:-translate-y-1">
@@ -58,6 +63,9 @@ export function SavingsGoalCard({ goal, onAddContribution }: SavingsGoalCardProp
               <span>Deadline: {goal.deadline}</span>
             </div>
           )}
+
+          {/* AI Coach */}
+          <AICoach goal={goal} onUseRecommendation={handleUseRecommendation} />
 
           <div className="flex items-center justify-between">
             <button 

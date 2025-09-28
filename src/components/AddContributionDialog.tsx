@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -17,6 +17,7 @@ interface AddContributionDialogProps {
   onOpenChange: (open: boolean) => void;
   goalTitle: string;
   onContribute: (amount: number, message?: string) => void;
+  suggestedAmount?: number;
 }
 
 export function AddContributionDialog({
@@ -24,10 +25,20 @@ export function AddContributionDialog({
   onOpenChange,
   goalTitle,
   onContribute,
+  suggestedAmount,
 }: AddContributionDialogProps) {
   const [amount, setAmount] = useState("");
   const [message, setMessage] = useState("");
   const { toast } = useToast();
+
+  // Set suggested amount when dialog opens
+  useEffect(() => {
+    if (open && suggestedAmount) {
+      setAmount(suggestedAmount.toFixed(0));
+    } else if (open && !suggestedAmount) {
+      setAmount("");
+    }
+  }, [open, suggestedAmount]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

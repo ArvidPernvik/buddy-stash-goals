@@ -34,6 +34,7 @@ const Index = () => {
   const navigate = useNavigate();
   const [goals, setGoals] = useState(mockGoals);
   const [selectedGoalId, setSelectedGoalId] = useState<string | null>(null);
+  const [suggestedAmount, setSuggestedAmount] = useState<number | undefined>(undefined);
   const [showContributionDialog, setShowContributionDialog] = useState(false);
   const [showCreateGoalDialog, setShowCreateGoalDialog] = useState(false);
   const [showDashboard, setShowDashboard] = useState(false);
@@ -124,8 +125,9 @@ const Index = () => {
 
   const selectedGoal = goals.find(goal => goal.id === selectedGoalId);
 
-  const handleAddContribution = (goalId: string) => {
+  const handleAddContribution = (goalId: string, suggestedAmount?: number) => {
     setSelectedGoalId(goalId);
+    setSuggestedAmount(suggestedAmount);
     setShowContributionDialog(true);
     hapticFeedback('light');
   };
@@ -1173,6 +1175,7 @@ const Index = () => {
         onOpenChange={setShowContributionDialog}
         goalTitle={selectedGoal?.title || ""}
         onContribute={handleContribute}
+        suggestedAmount={suggestedAmount}
       />
       
       <CreateGoalDialog
