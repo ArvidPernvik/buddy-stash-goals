@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Target, Users, TrendingUp, ArrowRight, Menu, X, LogOut, Trophy, MessageCircle, User, Search } from "lucide-react";
+import { Plus, Target, Users, TrendingUp, ArrowRight, Menu, X, LogOut, Trophy, MessageCircle, User, Search, ChevronDown } from "lucide-react";
 import { SavingsGoalCard } from "@/components/SavingsGoalCard";
 import { AddContributionDialog } from "@/components/AddContributionDialog";
 import { CreateGoalDialog } from "@/components/CreateGoalDialog";
@@ -15,6 +15,7 @@ import { PullToRefresh } from "@/components/PullToRefresh";
 import { ProfileDialog } from "@/components/ProfileDialog";
 import { EditProfileDialog } from "@/components/EditProfileDialog";
 import { UserSearch } from "@/components/UserSearch";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/useAuth";
 import { useMobileFeatures } from "@/hooks/useMobileFeatures";
 import { useSwipeGestures } from "@/hooks/useSwipeGestures";
@@ -899,6 +900,44 @@ const Index = () => {
                 <div>
                   <h1 className="text-2xl font-bold text-text-primary">Croowa</h1>
                 </div>
+                
+                {/* Navigation Dropdown */}
+                <div className="hidden md:flex">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" className="text-text-secondary hover:text-text-primary">
+                        Menu
+                        <ChevronDown className="w-4 h-4 ml-2" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-48 bg-surface border-border shadow-lg">
+                      <DropdownMenuItem 
+                        onClick={() => {setShowDashboard(false); setTimeout(() => scrollToSection('saving-methods'), 100)}}
+                        className="cursor-pointer hover:bg-surface-hover"
+                      >
+                        Saving methods
+                      </DropdownMenuItem>
+                      <DropdownMenuItem 
+                        onClick={() => {setShowDashboard(false); setTimeout(() => scrollToSection('how-it-works'), 100)}}
+                        className="cursor-pointer hover:bg-surface-hover"
+                      >
+                        How it works
+                      </DropdownMenuItem>
+                      <DropdownMenuItem 
+                        onClick={() => {setShowDashboard(false); setTimeout(() => scrollToSection('pricing'), 100)}}
+                        className="cursor-pointer hover:bg-surface-hover"
+                      >
+                        Pricing
+                      </DropdownMenuItem>
+                      <DropdownMenuItem 
+                        onClick={() => {setShowDashboard(false); setTimeout(() => scrollToSection('contact'), 100)}}
+                        className="cursor-pointer hover:bg-surface-hover"
+                      >
+                        Contact
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
               </div>
               
               <div className="flex items-center space-x-4">
@@ -928,6 +967,23 @@ const Index = () => {
               </div>
           </div>
           
+          {/* Mobile Navigation */}
+          {mobileMenuOpen && (
+            <div className="md:hidden py-4 space-y-2 border-t border-border mt-4">
+                <button onClick={() => {setShowDashboard(false); setMobileMenuOpen(false); setTimeout(() => scrollToSection('saving-methods'), 100)}} className="block w-full text-left py-2 text-text-secondary hover:text-text-primary">
+                  Saving methods
+                </button>
+                <button onClick={() => {setShowDashboard(false); setMobileMenuOpen(false); setTimeout(() => scrollToSection('how-it-works'), 100)}} className="block w-full text-left py-2 text-text-secondary hover:text-text-primary">
+                  How it works
+                </button>
+                <button onClick={() => {setShowDashboard(false); setMobileMenuOpen(false); setTimeout(() => scrollToSection('pricing'), 100)}} className="block w-full text-left py-2 text-text-secondary hover:text-text-primary">
+                  Pricing
+                </button>
+                <button onClick={() => {setShowDashboard(false); setMobileMenuOpen(false); setTimeout(() => scrollToSection('contact'), 100)}} className="block w-full text-left py-2 text-text-secondary hover:text-text-primary">
+                  Contact
+                </button>
+            </div>
+          )}
         </div>
       </header>
 
