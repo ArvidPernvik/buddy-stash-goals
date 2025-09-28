@@ -82,10 +82,18 @@ const Index = () => {
     if (!user?.id) return;
 
     try {
+      // Fetch all goals the user can see:
+      // 1. Goals they created themselves
+      // 2. Public goals from groups they're a member of
       const { data, error } = await supabase
         .from('savings_goals')
-        .select('*')
-        .eq('user_id', user.id)
+        .select(`
+          *,
+          savings_groups(name)
+        `)
+        .or(`user_id.eq.${user.id},and(is_public.eq.true,group_id.in.(
+          select group_id from group_members where user_id = '${user.id}'
+        ))`)
         .order('created_at', { ascending: false });
 
       if (error) {
@@ -102,7 +110,11 @@ const Index = () => {
         currentAmount: goal.current_amount / 100, // Convert from cents
         category: goal.category,
         deadline: goal.deadline,
-        contributors: [] // We'll add contributor fetching later if needed
+        contributors: [], // We'll add contributor fetching later if needed
+        groupId: goal.group_id,
+        groupName: (goal as any).savings_groups?.name,
+        isPublic: goal.is_public,
+        userId: goal.user_id
       }));
 
       setGoals(transformedGoals);
@@ -204,6 +216,8 @@ const Index = () => {
     targetAmount: number;
     category: string;
     deadline?: string;
+    groupId?: string;
+    groupName?: string;
   }) => {
     if (!user) return;
 
@@ -220,7 +234,8 @@ const Index = () => {
             category: newGoal.category,
             deadline: newGoal.deadline || null,
             current_amount: 0,
-            is_public: false
+            is_public: !!newGoal.groupId, // Make public if it's a group goal
+            group_id: newGoal.groupId || null
           }
         ])
         .select()
@@ -241,6 +256,9 @@ const Index = () => {
         category: newGoal.category,
         deadline: newGoal.deadline,
         contributors: [],
+        groupId: newGoal.groupId,
+        groupName: newGoal.groupName,
+        isPublic: !!newGoal.groupId,
       };
       setGoals(prevGoals => [goal, ...prevGoals]);
       hapticFeedback('medium');
@@ -1148,6 +1166,7 @@ const Index = () => {
                       key={goal.id}
                       goal={goal}
                       onAddContribution={handleAddContribution}
+                      currentUserId={user?.id}
                     />
                   ))}
                 </div>

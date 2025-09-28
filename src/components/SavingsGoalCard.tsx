@@ -9,14 +9,20 @@ import { AICoach } from "./AICoach";
 import { SavingsGoal } from "@/types";
 
 interface SavingsGoalCardProps {
-  goal: SavingsGoal;
+  goal: SavingsGoal & {
+    groupName?: string;
+    isPublic?: boolean;
+    userId?: string;
+  };
   onAddContribution: (goalId: string, suggestedAmount?: number) => void;
+  currentUserId?: string;
 }
 
-export function SavingsGoalCard({ goal, onAddContribution }: SavingsGoalCardProps) {
+export function SavingsGoalCard({ goal, onAddContribution, currentUserId }: SavingsGoalCardProps) {
   const [showContributors, setShowContributors] = useState(false);
   const progress = (goal.currentAmount / goal.targetAmount) * 100;
   const remaining = goal.targetAmount - goal.currentAmount;
+  const isOwnGoal = goal.userId === currentUserId;
 
   const handleUseRecommendation = (amount: number) => {
     onAddContribution(goal.id, amount);
@@ -32,6 +38,16 @@ export function SavingsGoalCard({ goal, onAddContribution }: SavingsGoalCardProp
               <Badge variant="secondary" className="text-xs">
                 {goal.category}
               </Badge>
+              {goal.groupName && (
+                <Badge variant="outline" className="text-xs border-primary/30 text-primary">
+                  {goal.groupName}
+                </Badge>
+              )}
+              {!isOwnGoal && (
+                <Badge variant="outline" className="text-xs border-info/30 text-info">
+                  Group goal
+                </Badge>
+              )}
             </div>
             <p className="text-text-secondary text-sm mb-3">{goal.description}</p>
           </div>
@@ -64,8 +80,10 @@ export function SavingsGoalCard({ goal, onAddContribution }: SavingsGoalCardProp
             </div>
           )}
 
-          {/* AI Coach */}
-          <AICoach goal={goal} onUseRecommendation={handleUseRecommendation} />
+          {/* AI Coach - only show for own goals or if it's a group goal */}
+          {(isOwnGoal || goal.groupName) && (
+            <AICoach goal={goal} onUseRecommendation={handleUseRecommendation} />
+          )}
 
           <div className="flex items-center justify-between">
             <button 

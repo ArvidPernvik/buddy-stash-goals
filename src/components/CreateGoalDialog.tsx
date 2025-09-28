@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -17,7 +17,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 
 interface CreateGoalDialogProps {
   open: boolean;
@@ -28,7 +31,15 @@ interface CreateGoalDialogProps {
     targetAmount: number;
     category: string;
     deadline?: string;
+    groupId?: string;
+    groupName?: string;
   }) => void;
+}
+
+interface UserGroup {
+  id: string;
+  name: string;
+  role: string;
 }
 
 const categories = [
@@ -46,12 +57,45 @@ export function CreateGoalDialog({
   onOpenChange,
   onCreateGoal,
 }: CreateGoalDialogProps) {
+  const { user } = useAuth();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [targetAmount, setTargetAmount] = useState("");
   const [category, setCategory] = useState("");
   const [deadline, setDeadline] = useState("");
+  const [selectedGroupId, setSelectedGroupId] = useState<string>("");
+  const [userGroups, setUserGroups] = useState<UserGroup[]>([]);
   const { toast } = useToast();
+
+  useEffect(() => {
+    if (open && user) {
+      fetchUserGroups();
+    }
+  }, [open, user]);
+
+  const fetchUserGroups = async () => {
+    try {
+      const { data } = await supabase
+        .from('savings_groups')
+        .select(`
+          id,
+          name,
+          group_members!inner(role)
+        `)
+        .eq('group_members.user_id', user!.id)
+        .order('name');
+
+      if (data) {
+        setUserGroups(data.map(group => ({
+          id: group.id,
+          name: group.name,
+          role: (group as any).group_members[0]?.role || 'member'
+        })));
+      }
+    } catch (error) {
+      console.error('Error fetching user groups:', error);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,12 +119,16 @@ export function CreateGoalDialog({
       return;
     }
 
+    const selectedGroup = userGroups.find(g => g.id === selectedGroupId);
+
     onCreateGoal({
       title: title.trim(),
       description: description.trim(),
       targetAmount: amount,
       category,
       deadline: deadline || undefined,
+      groupId: selectedGroupId || undefined,
+      groupName: selectedGroup?.name,
     });
 
     // Reset form
@@ -89,11 +137,12 @@ export function CreateGoalDialog({
     setTargetAmount("");
     setCategory("");
     setDeadline("");
+    setSelectedGroupId("");
     onOpenChange(false);
     
     toast({
       title: "Savings goal created!",
-      description: `"${title}" has been added as a new savings goal.`,
+      description: `"${title}" has been added${selectedGroup ? ` to ${selectedGroup.name}` : ''}.`,
     });
   };
 
@@ -105,7 +154,7 @@ export function CreateGoalDialog({
             Create new savings goal
           </DialogTitle>
           <DialogDescription className="text-text-secondary">
-            Set up a new savings goal for your group.
+            Set up a new savings goal for yourself or your group.
           </DialogDescription>
         </DialogHeader>
         
@@ -136,6 +185,37 @@ export function CreateGoalDialog({
               className="bg-surface border-border text-text-primary resize-none"
               rows={3}
             />
+          </div>
+
+          {/* Group Selection */}
+          <div className="space-y-2">
+            <Label className="text-text-primary">
+              Group (optional)
+            </Label>
+            <Select value={selectedGroupId} onValueChange={setSelectedGroupId}>
+              <SelectTrigger className="bg-surface border-border text-text-primary">
+                <SelectValue placeholder="Personal goal (no group)" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="">
+                  <div className="flex items-center gap-2">
+                    <span>Personal goal</span>
+                    <Badge variant="secondary" className="text-xs">Private</Badge>
+                  </div>
+                </SelectItem>
+                {userGroups.map((group) => (
+                  <SelectItem key={group.id} value={group.id}>
+                    <div className="flex items-center gap-2">
+                      <span>{group.name}</span>
+                      <Badge variant="outline" className="text-xs">{group.role}</Badge>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <p className="text-xs text-text-secondary">
+              {selectedGroupId ? "Group members can see and contribute to this goal" : "Only you can see and contribute to this goal"}
+            </p>
           </div>
           
           <div className="grid grid-cols-2 gap-4">
