@@ -203,7 +203,7 @@ export const GroupsPanel = () => {
       {/* Public Groups */}
       {publicGroups.length > 0 && (
         <div>
-          <h3 className="text-lg font-semibold text-text-primary mb-4">Offentliga grupper</h3>
+          <h3 className="text-lg font-semibold text-text-primary mb-4">Public groups</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {publicGroups.map((group) => (
               <Card key={group.id} className="p-6 hover:shadow-lg transition-shadow">
@@ -221,12 +221,12 @@ export const GroupsPanel = () => {
                       <p className="text-sm text-text-secondary">{group.description}</p>
                     </div>
                   </div>
-                  <Badge variant="outline">Offentlig</Badge>
+                  <Badge variant="outline">Public</Badge>
                 </div>
 
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-text-secondary">Medlemmar</span>
+                    <span className="text-text-secondary">Members</span>
                     <span className="font-semibold text-text-primary">{group.member_count}</span>
                   </div>
 
@@ -235,7 +235,7 @@ export const GroupsPanel = () => {
                     className="w-full"
                     onClick={() => handleJoinGroup(group.id)}
                   >
-                    Gå med i grupp
+                    Join group
                   </Button>
                 </div>
               </Card>
@@ -248,17 +248,17 @@ export const GroupsPanel = () => {
       {groups.length === 0 && publicGroups.length === 0 && (
         <Card className="p-12 text-center">
           <Users className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-text-primary mb-2">Inga grupper än</h3>
+          <h3 className="text-lg font-semibold text-text-primary mb-2">No groups yet</h3>
           <p className="text-text-secondary mb-6">
-            Skapa din första spargrupp eller gå med i en befintlig för att börja spara tillsammans
+            Create your first savings group or join an existing one to start saving together
           </p>
           <div className="flex gap-2 justify-center">
             <Button onClick={() => setShowCreateDialog(true)}>
               <Plus className="w-4 h-4 mr-2" />
-              Skapa grupp
+              Create group
             </Button>
             <Button variant="outline" onClick={() => setShowJoinDialog(true)}>
-              Gå med i grupp
+              Join group
             </Button>
           </div>
         </Card>

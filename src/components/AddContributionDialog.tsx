@@ -35,8 +35,8 @@ export function AddContributionDialog({
     const contributionAmount = parseFloat(amount);
     if (isNaN(contributionAmount) || contributionAmount <= 0) {
       toast({
-        title: "Ogiltigt belopp",
-        description: "Ange ett giltigt belopp större än 0.",
+        title: "Invalid amount",
+        description: "Please enter a valid amount greater than 0.",
         variant: "destructive",
       });
       return;
@@ -48,8 +48,8 @@ export function AddContributionDialog({
     onOpenChange(false);
     
     toast({
-      title: "Bidrag tillagt!",
-      description: `Du bidrog med ${contributionAmount.toLocaleString('sv-SE')} kr till ${goalTitle}.`,
+      title: "Contribution added!",
+      description: `You contributed $${contributionAmount.toLocaleString('en-US')} to ${goalTitle}.`,
     });
   };
 
@@ -58,17 +58,17 @@ export function AddContributionDialog({
       <DialogContent className="sm:max-w-md bg-surface border-border">
         <DialogHeader>
           <DialogTitle className="text-text-primary">
-            Bidra till {goalTitle}
+            Contribute to {goalTitle}
           </DialogTitle>
           <DialogDescription className="text-text-secondary">
-            Lägg till ditt bidrag till detta sparmål.
+            Add your contribution to this savings goal.
           </DialogDescription>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="amount" className="text-text-primary">
-              Belopp (kr)
+              Amount ($)
             </Label>
             <Input
               id="amount"
@@ -85,11 +85,11 @@ export function AddContributionDialog({
           
           <div className="space-y-2">
             <Label htmlFor="message" className="text-text-primary">
-              Meddelande (valfritt)
+              Message (optional)
             </Label>
             <Textarea
               id="message"
-              placeholder="Lägg till ett meddelande..."
+              placeholder="Add a message..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               className="bg-surface border-border text-text-primary resize-none"
@@ -104,13 +104,13 @@ export function AddContributionDialog({
               onClick={() => onOpenChange(false)}
               className="flex-1"
             >
-              Avbryt
+              Cancel
             </Button>
             <Button 
               type="submit" 
               className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground"
             >
-              Bidra
+              Contribute
             </Button>
           </div>
         </form>

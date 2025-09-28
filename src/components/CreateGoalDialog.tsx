@@ -32,13 +32,13 @@ interface CreateGoalDialogProps {
 }
 
 const categories = [
-  "Resa",
-  "Shopping",
-  "Evenemang",
-  "Gåva",
-  "Bil",
-  "Hem",
-  "Övrigt"
+  "Travel",
+  "Shopping", 
+  "Events",
+  "Gift",
+  "Car",
+  "Home",
+  "Other"
 ];
 
 export function CreateGoalDialog({
@@ -59,8 +59,8 @@ export function CreateGoalDialog({
     const amount = parseFloat(targetAmount);
     if (isNaN(amount) || amount <= 0) {
       toast({
-        title: "Ogiltigt målbelopp",
-        description: "Ange ett giltigt målbelopp större än 0.",
+        title: "Invalid target amount",
+        description: "Please enter a valid target amount greater than 0.",
         variant: "destructive",
       });
       return;
@@ -68,8 +68,8 @@ export function CreateGoalDialog({
 
     if (!title.trim() || !category) {
       toast({
-        title: "Fyll i alla obligatoriska fält",
-        description: "Titel och kategori måste fyllas i.",
+        title: "Fill in all required fields",
+        description: "Title and category must be filled in.",
         variant: "destructive",
       });
       return;
@@ -92,8 +92,8 @@ export function CreateGoalDialog({
     onOpenChange(false);
     
     toast({
-      title: "Sparmål skapat!",
-      description: `"${title}" har lagts till som ett nytt sparmål.`,
+      title: "Savings goal created!",
+      description: `"${title}" has been added as a new savings goal.`,
     });
   };
 
@@ -102,21 +102,21 @@ export function CreateGoalDialog({
       <DialogContent className="sm:max-w-md bg-surface border-border">
         <DialogHeader>
           <DialogTitle className="text-text-primary">
-            Skapa nytt sparmål
+            Create new savings goal
           </DialogTitle>
           <DialogDescription className="text-text-secondary">
-            Sätt upp ett nytt sparmål för din grupp.
+            Set up a new savings goal for your group.
           </DialogDescription>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="title" className="text-text-primary">
-              Titel *
+              Title *
             </Label>
             <Input
               id="title"
-              placeholder="t.ex. Resa till Kroatien"
+              placeholder="e.g. Trip to Croatia"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               className="bg-surface border-border text-text-primary"
@@ -126,11 +126,11 @@ export function CreateGoalDialog({
           
           <div className="space-y-2">
             <Label htmlFor="description" className="text-text-primary">
-              Beskrivning
+              Description
             </Label>
             <Textarea
               id="description"
-              placeholder="Beskriv ert sparmål..."
+              placeholder="Describe your savings goal..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               className="bg-surface border-border text-text-primary resize-none"
@@ -141,7 +141,7 @@ export function CreateGoalDialog({
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="targetAmount" className="text-text-primary">
-                Målbelopp (kr) *
+                Target amount ($) *
               </Label>
               <Input
                 id="targetAmount"
@@ -158,11 +158,11 @@ export function CreateGoalDialog({
             
             <div className="space-y-2">
               <Label htmlFor="category" className="text-text-primary">
-                Kategori *
+                Category *
               </Label>
               <Select value={category} onValueChange={setCategory} required>
                 <SelectTrigger className="bg-surface border-border text-text-primary">
-                  <SelectValue placeholder="Välj kategori" />
+                  <SelectValue placeholder="Choose category" />
                 </SelectTrigger>
                 <SelectContent>
                   {categories.map((cat) => (
@@ -177,7 +177,7 @@ export function CreateGoalDialog({
           
           <div className="space-y-2">
             <Label htmlFor="deadline" className="text-text-primary">
-              Deadline (valfritt)
+              Deadline (optional)
             </Label>
             <Input
               id="deadline"
@@ -195,13 +195,13 @@ export function CreateGoalDialog({
               onClick={() => onOpenChange(false)}
               className="flex-1"
             >
-              Avbryt
+              Cancel
             </Button>
             <Button 
               type="submit" 
               className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground"
             >
-              Skapa
+              Create
             </Button>
           </div>
         </form>

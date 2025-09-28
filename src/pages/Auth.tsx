@@ -10,9 +10,9 @@ import { z } from 'zod';
 import { ArrowLeft, Eye, EyeOff } from 'lucide-react';
 
 const authSchema = z.object({
-  email: z.string().email('Ogiltig email-adress').max(255, 'Email får inte vara längre än 255 tecken'),
-  password: z.string().min(6, 'Lösenord måste vara minst 6 tecken'),
-  displayName: z.string().max(100, 'Namn får inte vara längre än 100 tecken').optional(),
+  email: z.string().email('Invalid email address').max(255, 'Email must not be longer than 255 characters'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+  displayName: z.string().max(100, 'Name must not be longer than 100 characters').optional(),
 });
 
 const Auth = () => {
@@ -53,25 +53,25 @@ const Auth = () => {
       }
 
       if (result.error) {
-        let errorMessage = 'Ett fel uppstod';
+        let errorMessage = 'An error occurred';
         
         if (result.error.message.includes('Invalid login credentials')) {
-          errorMessage = 'Felaktig email eller lösenord';
+          errorMessage = 'Incorrect email or password';
         } else if (result.error.message.includes('User already registered')) {
-          errorMessage = 'En användare med denna email finns redan';
+          errorMessage = 'A user with this email already exists';
         } else if (result.error.message.includes('Email not confirmed')) {
-          errorMessage = 'Bekräfta din email innan du loggar in';
+          errorMessage = 'Please confirm your email before logging in';
         }
 
         toast({
-          title: "Fel",
+          title: "Error",
           description: errorMessage,
           variant: "destructive",
         });
       } else if (!isLogin) {
         toast({
-          title: "Registrering lyckades!",
-          description: "Kontrollera din email för att bekräfta ditt konto.",
+          title: "Registration successful!",
+          description: "Check your email to confirm your account.",
         });
         setIsLogin(true);
       }
@@ -79,14 +79,14 @@ const Auth = () => {
       if (error instanceof z.ZodError) {
         const firstError = error.errors[0];
         toast({
-          title: "Valideringsfel",
+          title: "Validation error",
           description: firstError.message,
           variant: "destructive",
         });
       } else {
         toast({
-          title: "Fel",
-          description: "Ett oväntat fel uppstod",
+          title: "Error",
+          description: "An unexpected error occurred",
           variant: "destructive",
         });
       }
@@ -105,11 +105,11 @@ const Auth = () => {
             className="mb-4"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Tillbaka till startsidan
+            Back to homepage
           </Button>
           <h1 className="text-3xl font-bold text-text-primary">Croowa</h1>
           <p className="text-text-secondary">
-            {isLogin ? 'Logga in på ditt konto' : 'Skapa ett nytt konto'}
+            {isLogin ? 'Log in to your account' : 'Create a new account'}
           </p>
         </div>
 
@@ -124,26 +124,26 @@ const Auth = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 className="bg-background"
-                placeholder="din@email.se"
+                placeholder="your@email.com"
               />
             </div>
 
             {!isLogin && (
               <div className="space-y-2">
-                <Label htmlFor="displayName">Namn (valfritt)</Label>
+                <Label htmlFor="displayName">Name (optional)</Label>
                 <Input
                   id="displayName"
                   type="text"
                   value={displayName}
                   onChange={(e) => setDisplayName(e.target.value)}
                   className="bg-background"
-                  placeholder="Ditt namn"
+                  placeholder="Your name"
                 />
               </div>
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="password">Lösenord</Label>
+              <Label htmlFor="password">Password</Label>
               <div className="relative">
                 <Input
                   id="password"
@@ -152,7 +152,7 @@ const Auth = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   className="bg-background pr-10"
-                  placeholder="Ditt lösenord"
+                  placeholder="Your password"
                 />
                 <Button
                   type="button"
@@ -175,7 +175,7 @@ const Auth = () => {
               className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
               disabled={loading}
             >
-              {loading ? 'Laddar...' : (isLogin ? 'Logga in' : 'Skapa konto')}
+              {loading ? 'Loading...' : (isLogin ? 'Log in' : 'Create account')}
             </Button>
           </form>
 
@@ -186,8 +186,8 @@ const Auth = () => {
               className="text-text-secondary"
             >
               {isLogin
-                ? 'Har du inget konto? Skapa ett här'
-                : 'Har du redan ett konto? Logga in här'}
+                ? "Don't have an account? Create one here"
+                : 'Already have an account? Log in here'}
             </Button>
           </div>
         </Card>

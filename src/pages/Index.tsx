@@ -176,7 +176,7 @@ const Index = () => {
                   className="text-text-secondary hover:text-text-primary"
                 >
                   <LogOut className="w-4 h-4 mr-2" />
-                  Logga ut
+                  Log out
                 </Button>
               </div>
 
@@ -214,7 +214,7 @@ const Index = () => {
                   className="w-full justify-start text-text-secondary hover:text-text-primary"
                 >
                   <LogOut className="w-4 h-4 mr-2" />
-                  Logga ut
+                  Log out
                 </Button>
               </div>
             )}
@@ -245,7 +245,7 @@ const Index = () => {
                     size="lg"
                     className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg px-8 py-3"
                   >
-                    {user ? "Fortsätt spara" : "Kom igång"}
+                    {user ? "Continue saving" : "Get started"}
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
                   <Button 
@@ -254,7 +254,7 @@ const Index = () => {
                     className="text-lg px-8 py-3"
                     onClick={() => scrollToSection('how-it-works')}
                   >
-                    Se hur det fungerar
+                    See how it works
                   </Button>
                 </div>
               </div>
@@ -574,44 +574,44 @@ const Index = () => {
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <h2 className="text-5xl lg:text-7xl xl:text-8xl font-bold text-text-primary mb-6 leading-tight">
-                Helt gratis
+                Completely free
               </h2>
               <p className="text-lg lg:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed">
-                Croowa är helt gratis att använda. Inga dolda avgifter, inga prenumerationer.
+                Croowa is completely free to use. No hidden fees, no subscriptions.
               </p>
             </div>
             
             <div className="max-w-2xl mx-auto">
               <Card className="p-12 bg-gradient-to-br from-success/5 to-success/10 border-success/20 shadow-lg">
                 <div className="text-center">
-                  <h3 className="text-3xl font-bold text-text-primary mb-4">Gratis för alltid</h3>
+                  <h3 className="text-3xl font-bold text-text-primary mb-4">Free forever</h3>
                   <div className="text-6xl font-bold text-success mb-8">
-                    0 kr
+                    $0
                   </div>
                   <ul className="space-y-4 text-left max-w-lg mx-auto text-text-secondary mb-8">
                     <li className="flex items-start gap-3">
                       <span className="text-success mt-1">✓</span>
-                      <span>Obegränsat antal sparmål</span>
+                      <span>Unlimited savings goals</span>
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="text-success mt-1">✓</span>
-                      <span>Obegränsat antal gruppmedlemmar</span>
+                      <span>Unlimited group members</span>
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="text-success mt-1">✓</span>
-                      <span>Realtidsuppdateringar av framsteg</span>
+                      <span>Real-time progress updates</span>
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="text-success mt-1">✓</span>
-                      <span>Fullständig mobilapp</span>
+                      <span>Complete mobile app</span>
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="text-success mt-1">✓</span>
-                      <span>Säker datahantering</span>
+                      <span>Secure data handling</span>
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="text-success mt-1">✓</span>
-                      <span>Alla funktioner inkluderade</span>
+                      <span>All features included</span>
                     </li>
                   </ul>
                   <Button 
@@ -619,11 +619,11 @@ const Index = () => {
                     size="lg"
                     className="bg-success hover:bg-success/90 text-success-foreground text-lg px-12 py-4"
                   >
-                    {user ? "Fortsätt spara" : "Kom igång gratis"}
+                    {user ? "Continue saving" : "Get started free"}
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
                   <p className="text-sm text-text-tertiary mt-4">
-                    Inget kreditkort behövs • Ingen registrering • Börja direkt
+                    No credit card required • No registration • Start immediately
                   </p>
                 </div>
               </Card>
@@ -639,71 +639,71 @@ const Index = () => {
                 Get in touch
               </h2>
               <p className="text-lg lg:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed">
-                Vi är här för att hjälpa dig. Kontakta oss så svarar vi direkt.
+                We're here to help you. Contact us and we'll respond immediately.
               </p>
             </div>
             
             <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
               {/* Contact Form */}
               <Card className="p-8 bg-surface border-border/50">
-                <h3 className="text-2xl font-bold text-text-primary mb-6">Skicka ett meddelande</h3>
+                <h3 className="text-2xl font-bold text-text-primary mb-6">Send a message</h3>
                 <form className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-text-primary mb-2">
-                        Förnamn
+                        First name
                       </label>
                       <input
                         type="text"
                         className="w-full px-3 py-2 border border-border rounded-lg bg-background text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
-                        placeholder="Ditt förnamn"
+                        placeholder="Your first name"
                       />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-text-primary mb-2">
-                        Efternamn
+                        Last name
                       </label>
                       <input
                         type="text"
                         className="w-full px-3 py-2 border border-border rounded-lg bg-background text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
-                        placeholder="Ditt efternamn"
+                        placeholder="Your last name"
                       />
                     </div>
                   </div>
                   
                   <div>
                     <label className="block text-sm font-medium text-text-primary mb-2">
-                      E-post
+                      Email
                     </label>
                     <input
                       type="email"
                       className="w-full px-3 py-2 border border-border rounded-lg bg-background text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
-                      placeholder="din.email@exempel.se"
+                      placeholder="your.email@example.com"
                     />
                   </div>
                   
                   <div>
                     <label className="block text-sm font-medium text-text-primary mb-2">
-                      Ämne
+                      Subject
                     </label>
                     <select className="w-full px-3 py-2 border border-border rounded-lg bg-background text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
-                      <option value="">Välj ett ämne</option>
-                      <option value="support">Teknisk support</option>
-                      <option value="feature">Funktionsförslag</option>
-                      <option value="billing">Fakturering</option>
-                      <option value="partnership">Partnerskap</option>
-                      <option value="other">Övrigt</option>
+                      <option value="">Choose a subject</option>
+                      <option value="support">Technical support</option>
+                      <option value="feature">Feature request</option>
+                      <option value="billing">Billing</option>
+                      <option value="partnership">Partnership</option>
+                      <option value="other">Other</option>
                     </select>
                   </div>
                   
                   <div>
                     <label className="block text-sm font-medium text-text-primary mb-2">
-                      Meddelande
+                      Message
                     </label>
                     <textarea
                       rows={4}
                       className="w-full px-3 py-2 border border-border rounded-lg bg-background text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary resize-none"
-                      placeholder="Beskriv ditt ärende..."
+                      placeholder="Describe your issue..."
                     ></textarea>
                   </div>
                   
@@ -711,7 +711,7 @@ const Index = () => {
                     type="submit"
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
                   >
-                    Skicka meddelande
+                    Send message
                   </Button>
                 </form>
               </Card>
@@ -719,14 +719,14 @@ const Index = () => {
               {/* Contact Information */}
               <div className="space-y-8">
                 <Card className="p-6 bg-surface border-border/50">
-                  <h3 className="text-lg font-semibold text-text-primary mb-4">Kontakta oss direkt</h3>
+                  <h3 className="text-lg font-semibold text-text-primary mb-4">Contact us directly</h3>
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
                         <span className="text-primary font-semibold">@</span>
                       </div>
                       <div>
-                        <p className="font-medium text-text-primary">E-post</p>
+                        <p className="font-medium text-text-primary">Email</p>
                         <p className="text-text-secondary">hello@croowa.com</p>
                       </div>
                     </div>
@@ -736,7 +736,7 @@ const Index = () => {
                         <span className="text-primary font-semibold">Tel</span>
                       </div>
                       <div>
-                        <p className="font-medium text-text-primary">Telefon</p>
+                        <p className="font-medium text-text-primary">Phone</p>
                         <p className="text-text-secondary">+46 123 456 789</p>
                       </div>
                     </div>
@@ -746,15 +746,15 @@ const Index = () => {
                         <span className="text-primary font-semibold">SE</span>
                       </div>
                       <div>
-                        <p className="font-medium text-text-primary">Adress</p>
-                        <p className="text-text-secondary">Stockholm, Sverige</p>
+                        <p className="font-medium text-text-primary">Address</p>
+                        <p className="text-text-secondary">Stockholm, Sweden</p>
                       </div>
                     </div>
                   </div>
                 </Card>
                 
                 <Card className="p-6 bg-surface border-border/50">
-                  <h3 className="text-lg font-semibold text-text-primary mb-4">Följ oss</h3>
+                  <h3 className="text-lg font-semibold text-text-primary mb-4">Follow us</h3>
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
@@ -789,9 +789,9 @@ const Index = () => {
                 </Card>
                 
                 <Card className="p-6 bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
-                  <h3 className="text-lg font-semibold text-text-primary mb-2">Tillgänglighet</h3>
+                  <h3 className="text-lg font-semibold text-text-primary mb-2">Availability</h3>
                   <p className="text-text-secondary text-sm mb-4">
-                    Vi svarar på alla meddelanden direkt och är tillgängliga dygnet runt.
+                    We respond to all messages immediately and are available 24/7.
                   </p>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
@@ -799,8 +799,8 @@ const Index = () => {
                       <span className="text-text-primary font-medium">24/7</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-text-secondary">Svarstid</span>
-                      <span className="text-text-primary font-medium">Direkt</span>
+                      <span className="text-text-secondary">Response time</span>
+                      <span className="text-text-primary font-medium">Immediate</span>
                     </div>
                   </div>
                 </Card>
