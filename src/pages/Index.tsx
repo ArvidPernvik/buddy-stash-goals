@@ -86,15 +86,34 @@ const Index = () => {
       // 1. Goals they created themselves
       // 2. Public goals from groups they're a member of
       const { data, error } = await supabase
-        .from('savings_goals')
-        .select(`
-          *,
-          savings_groups(name)
-        `)
-        .or(`user_id.eq.${user.id},and(is_public.eq.true,group_id.in.(
-          select group_id from group_members where user_id = '${user.id}'
-        ))`)
-        .order('created_at', { ascending: false });
+        // First get group memberships to avoid subselect errors
+        const { data: memberships, error: membershipsError } = await supabase
+          .from('group_members')
+          .select('group_id')
+          .eq('user_id', user.id);
+
+        if (membershipsError) {
+          console.error('Error fetching memberships:', membershipsError);
+        }
+
+        // Build base query
+        let query = supabase
+          .from('savings_goals')
+          .select(`
+            *,
+            savings_groups(name)
+          `)
+          .order('created_at', { ascending: false });
+
+        const groupIds = (memberships || []).map((m: any) => m.group_id);
+
+        if (groupIds.length > 0) {
+          query = query.or(`user_id.eq.${user.id},group_id.in.(${groupIds.join(',')})`);
+        } else {
+          query = query.eq('user_id', user.id);
+        }
+
+        const { data, error } = await query;
 
       if (error) {
         console.error('Error fetching goals:', error);

@@ -44,6 +44,14 @@ const categories = [
   "Other"
 ];
 
+const PRESET_AMOUNTS = [25, 50, 75, 100, 200, 500];
+const FREQUENCIES = [
+  { label: "One time", value: "once" },
+  { label: "Weekly", value: "weekly" },
+  { label: "Every 2 weeks", value: "biweekly" },
+  { label: "Monthly", value: "monthly" }
+];
+
 export function PersonalGoalsDialog({
   open,
   onOpenChange,
@@ -66,9 +74,12 @@ export function PersonalGoalsDialog({
   const [goalCategory, setGoalCategory] = useState("");
   const [goalDeadline, setGoalDeadline] = useState("");
 
-  // Contribution form state
-  const [contributionAmount, setContributionAmount] = useState("");
-  const [contributionMessage, setContributionMessage] = useState("");
+// Contribution form state
+const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
+const [customAmount, setCustomAmount] = useState("");
+const [isCustom, setIsCustom] = useState(false);
+const [frequency, setFrequency] = useState("once");
+const [contributionMessage, setContributionMessage] = useState("");
 
   useEffect(() => {
     if (open && user) {
@@ -160,60 +171,87 @@ export function PersonalGoalsDialog({
     }
   };
 
-  const handleContribute = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!user || !selectedGoal) return;
+const handleContribute = async (e: React.FormEvent) => {
+  e.preventDefault();
+  if (!user || !selectedGoal) return;
 
-    const amount = parseFloat(contributionAmount);
-    if (isNaN(amount) || amount <= 0) {
-      toast({
-        title: "Invalid amount",
-        description: "Please enter a valid amount greater than 0.",
-        variant: "destructive",
-      });
-      return;
-    }
+  const amountNum = selectedAmount ?? parseFloat(customAmount);
+  if (amountNum == null || isNaN(amountNum) || amountNum <= 0) {
+    toast({
+      title: "Invalid amount",
+      description: "Please select or enter a valid amount greater than 0.",
+      variant: "destructive",
+    });
+    return;
+  }
 
-    try {
-      const { error } = await supabase
-        .from('goal_contributions')
-        .insert([
-          {
-            goal_id: selectedGoal.id,
-            user_id: user.id,
-            amount: Math.round(amount * 100), // Convert to cents
-            message: contributionMessage.trim() || null
-          }
-        ]);
+  try {
+    const { error } = await supabase
+      .from('goal_contributions')
+      .insert([
+        {
+          goal_id: selectedGoal.id,
+          user_id: user.id,
+          amount: Math.round(amountNum * 100),
+          message: contributionMessage.trim() || null
+        }
+      ]);
 
-      if (error) throw error;
+    if (error) throw error;
 
-      // Reset form
-      setContributionAmount("");
-      setContributionMessage("");
-      setShowContributionForm(false);
-      setSelectedGoal(null);
+    // Fetch current amount and update goal
+    const { data: goalData, error: fetchError } = await supabase
+      .from('savings_goals')
+      .select('current_amount')
+      .eq('id', selectedGoal.id)
+      .maybeSingle();
 
-      toast({
-        title: "Contribution added!",
-        description: `You contributed $${amount.toLocaleString()} to ${selectedGoal.title}.`,
-      });
+    if (fetchError) throw fetchError;
 
-      fetchPersonalGoals();
-      onGoalUpdated();
-    } catch (error) {
-      console.error('Error adding contribution:', error);
-      toast({
-        title: "Error",
-        description: "Failed to add contribution",
-        variant: "destructive",
-      });
-    }
-  };
+    const currentCents = goalData?.current_amount ?? 0;
+    const newAmountCents = currentCents + Math.round(amountNum * 100);
+
+    const { error: updateError } = await supabase
+      .from('savings_goals')
+      .update({ current_amount: newAmountCents })
+      .eq('id', selectedGoal.id);
+
+    if (updateError) throw updateError;
+
+    // Reset form state
+    setSelectedAmount(null);
+    setCustomAmount("");
+    setIsCustom(false);
+    setFrequency("once");
+    setContributionMessage("");
+    setShowContributionForm(false);
+    setSelectedGoal(null);
+
+    toast({
+      title: "Contribution added!",
+      description: `You contributed $${amountNum.toLocaleString()} to ${selectedGoal.title}.`,
+    });
+
+    fetchPersonalGoals();
+    onGoalUpdated();
+  } catch (error) {
+    console.error('Error adding contribution:', error);
+    toast({
+      title: "Error",
+      description: "Failed to add contribution",
+      variant: "destructive",
+    });
+  }
+};
 
   const handleAddContribution = (goal: PersonalGoal) => {
-    setSelectedGoal(goal);
-    setShowContributionForm(true);
+setSelectedGoal(goal);
+setSelectedAmount(null);
+setCustomAmount("");
+setIsCustom(false);
+setFrequency("once");
+setContributionMessage("");
+setShowContributionForm(true);
   };
 
   const handleOpenChange = (newOpen: boolean) => {
@@ -331,25 +369,74 @@ export function PersonalGoalsDialog({
               </p>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="amount" className="text-text-primary">Amount ($)</Label>
-              <Input
-                id="amount"
-                type="number"
-                value={contributionAmount}
-                onChange={(e) => setContributionAmount(e.target.value)}
-                placeholder="0"
-                className="bg-surface border-border text-text-primary"
-                step="0.01"
-                min="0"
-                required
-              />
+            <div className="space-y-3">
+              <Label className="text-text-primary">Amount</Label>
+              <div className="flex flex-wrap gap-2">
+                {PRESET_AMOUNTS.map((amt) => (
+                  <Button
+                    key={amt}
+                    type="button"
+                    variant={selectedAmount === amt ? "default" : "outline"}
+                    className={selectedAmount === amt ? "bg-primary text-primary-foreground" : ""}
+                    onClick={() => { setSelectedAmount(amt); setIsCustom(false); }}
+                    size="sm"
+                  >
+                    ${'{'}amt.toLocaleString(){'}'}
+                  </Button>
+                ))}
+                <Button
+                  type="button"
+                  variant={isCustom ? "default" : "outline"}
+                  className={isCustom ? "bg-primary text-primary-foreground" : ""}
+                  onClick={() => { setIsCustom(true); setSelectedAmount(null); }}
+                  size="sm"
+                >
+                  Custom
+                </Button>
+              </div>
+
+              {isCustom && (
+                <Input
+                  type="number"
+                  value={customAmount}
+                  onChange={(e) => setCustomAmount(e.target.value)}
+                  placeholder="Enter amount"
+                  className="bg-surface border-border text-text-primary"
+                  step="0.01"
+                  min="0"
+                />
+              )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="message" className="text-text-primary">
-                Message (optional)
-              </Label>
+              <Label className="text-text-primary">Frequency</Label>
+              <div className="flex flex-wrap gap-2">
+                {FREQUENCIES.map((f) => (
+                  <Button
+                    key={f.value}
+                    type="button"
+                    variant={frequency === f.value ? "default" : "outline"}
+                    className={frequency === f.value ? "bg-primary text-primary-foreground" : ""}
+                    onClick={() => setFrequency(f.value)}
+                    size="sm"
+                  >
+                    {f.label}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            <div className="text-sm text-text-secondary">
+              <span className="font-medium text-text-primary">Summary: </span>
+              {selectedAmount || parseFloat(customAmount) > 0 ? (
+                <>${'{'}(selectedAmount ?? parseFloat(customAmount || '0')).toLocaleString(){'}'} {frequency !== 'once' ? `· ${frequency}` : ''}</>
+              ) : (
+                <>Choose an amount</>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="message" className="text-text-primary">Message (optional)</Label>
               <Textarea
                 id="message"
                 value={contributionMessage}
