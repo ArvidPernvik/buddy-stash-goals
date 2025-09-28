@@ -386,6 +386,14 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: string
       }
+      get_group_total_contributions: {
+        Args: { group_uuid: string }
+        Returns: number
+      }
+      update_user_points: {
+        Args: { points_to_add: number; user_uuid: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
