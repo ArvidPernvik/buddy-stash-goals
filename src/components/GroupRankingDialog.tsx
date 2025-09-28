@@ -34,63 +34,56 @@ export const GroupRankingDialog = ({ open, onOpenChange, groupId, groupName }: G
   }, [open, groupId]);
 
   const fetchRankings = async () => {
+    if (!groupId) return;
+    
+    setLoading(true);
     try {
-      // Get all group goals for this group
-      const { data: goals } = await supabase
+      // Get all individual savings goals for users in this group
+      const { data: goals, error: goalsError } = await supabase
         .from('savings_goals')
-        .select('id')
+        .select(`
+          user_id,
+          current_amount,
+          target_amount,
+          profiles!inner(display_name, email)
+        `)
         .eq('group_id', groupId);
 
+      if (goalsError) throw goalsError;
       if (!goals || goals.length === 0) {
         setRankings([]);
-        setLoading(false);
         return;
       }
 
-      const goalIds = goals.map(g => g.id);
-
-      // Get contributions aggregated by user
-      const { data: contributions } = await supabase
-        .from('goal_contributions')
-        .select(`
-          user_id,
-          amount
-        `)
-        .in('goal_id', goalIds);
-
-      if (contributions && contributions.length > 0) {
-        // Get unique user IDs
-        const userIds = [...new Set(contributions.map(c => c.user_id))];
+      // Calculate totals per user (sum of current_amount across all their goals)
+      const userTotals = new Map<string, { total: number, profile: any }>();
+      
+      goals.forEach(goal => {
+        const userId = goal.user_id;
+        const current = userTotals.get(userId);
         
-        // Fetch profile data separately
-        const { data: profiles } = await supabase
-          .from('profiles')
-          .select('user_id, display_name, email')
-          .in('user_id', userIds);
+        if (current) {
+          current.total += goal.current_amount;
+        } else {
+          userTotals.set(userId, {
+            total: goal.current_amount,
+            profile: goal.profiles
+          });
+        }
+      });
 
-        // Aggregate contributions by user
-        const userContributions = contributions.reduce((acc, contribution) => {
-          const userId = contribution.user_id;
-          if (!acc[userId]) {
-            acc[userId] = {
-              user_id: userId,
-              total_contributions: 0,
-              profiles: profiles?.find(p => p.user_id === userId) || {
-                display_name: '',
-                email: ''
-              }
-            };
-          }
-          acc[userId].total_contributions += contribution.amount;
-          return acc;
-        }, {} as Record<string, RankingMember>);
+      // Create ranking data and sort by total saved amounts
+      const rankingData: RankingMember[] = Array.from(userTotals.entries()).map(([userId, data]) => ({
+        user_id: userId,
+        total_contributions: data.total,
+        profiles: {
+          display_name: data.profile.display_name,
+          email: data.profile.email
+        }
+      }));
 
-        // Convert to array and sort by total contributions
-        const sortedRankings = Object.values(userContributions)
-          .sort((a, b) => b.total_contributions - a.total_contributions);
-
-        setRankings(sortedRankings);
-      }
+      rankingData.sort((a, b) => b.total_contributions - a.total_contributions);
+      setRankings(rankingData);
     } catch (error) {
       console.error('Error fetching rankings:', error);
       toast({
@@ -131,7 +124,7 @@ export const GroupRankingDialog = ({ open, onOpenChange, groupId, groupName }: G
             <div className="text-center py-4">Loading rankings...</div>
           ) : rankings.length === 0 ? (
             <div className="text-center py-4 text-muted-foreground">
-              No contributions yet. Be the first to save!
+              No individual goals yet. Create your first goal to appear in the ranking!
             </div>
           ) : (
             rankings.map((member, index) => (
@@ -164,9 +157,9 @@ export const GroupRankingDialog = ({ open, onOpenChange, groupId, groupName }: G
                 </div>
                 <div className="text-right">
                   <p className="font-bold text-success">
-                    ${member.total_contributions.toLocaleString()}
+                    ${(member.total_contributions / 100).toLocaleString()}
                   </p>
-                  <p className="text-xs text-muted-foreground">contributed</p>
+                  <p className="text-xs text-muted-foreground">saved</p>
                 </div>
               </div>
             ))

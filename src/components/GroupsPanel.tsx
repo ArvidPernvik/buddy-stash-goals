@@ -3,13 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar } from "@/components/ui/avatar";
-import { Plus, Users, MessageCircle, Trophy, Share2, Crown, DollarSign, Copy } from "lucide-react";
+import { Plus, Users, MessageCircle, Trophy, Share2, Crown, Target, Copy } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { CreateGroupDialog } from "./CreateGroupDialog";
 import { JoinGroupDialog } from "./JoinGroupDialog";
-import { AddGroupContributionDialog } from "./AddGroupContributionDialog";
+import { PersonalGoalsDialog } from "./PersonalGoalsDialog";
 import { GroupMembersDialog } from "./GroupMembersDialog";
 import { GroupChatDialog } from "./GroupChatDialog";
 import { GroupRankingDialog } from "./GroupRankingDialog";
@@ -36,7 +36,7 @@ export const GroupsPanel = () => {
   const [loading, setLoading] = useState(true);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [showJoinDialog, setShowJoinDialog] = useState(false);
-  const [showContributionDialog, setShowContributionDialog] = useState(false);
+  const [showPersonalGoalsDialog, setShowPersonalGoalsDialog] = useState(false);
   const [showMembersDialog, setShowMembersDialog] = useState(false);
   const [showChatDialog, setShowChatDialog] = useState(false);
   const [showRankingDialog, setShowRankingDialog] = useState(false);
@@ -141,9 +141,9 @@ export const GroupsPanel = () => {
     }
   };
 
-  const handleAddContribution = (group: SavingsGroup) => {
+  const handleShowPersonalGoals = (group: SavingsGroup) => {
     setSelectedGroup(group);
-    setShowContributionDialog(true);
+    setShowPersonalGoalsDialog(true);
   };
 
   const handleShowMembers = (group: SavingsGroup) => {
@@ -252,10 +252,10 @@ export const GroupsPanel = () => {
                       <Button 
                         size="sm" 
                         variant="outline"
-                        onClick={() => handleAddContribution(group)}
+                        onClick={() => handleShowPersonalGoals(group)}
                       >
-                        <DollarSign className="w-4 h-4 mr-1" />
-                        Add Money
+                        <Target className="w-4 h-4 mr-1" />
+                        My Goals
                       </Button>
                       <Button 
                         size="sm" 
@@ -366,12 +366,12 @@ export const GroupsPanel = () => {
       />
       {selectedGroup && (
         <>
-          <AddGroupContributionDialog
-            open={showContributionDialog}
-            onOpenChange={setShowContributionDialog}
+          <PersonalGoalsDialog
+            open={showPersonalGoalsDialog}
+            onOpenChange={setShowPersonalGoalsDialog}
             groupId={selectedGroup.id}
             groupName={selectedGroup.name}
-            onContributionAdded={fetchGroups}
+            onGoalUpdated={fetchGroups}
           />
           <GroupMembersDialog
             open={showMembersDialog}
