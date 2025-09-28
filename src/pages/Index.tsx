@@ -959,6 +959,15 @@ const Index = () => {
                 <Button 
                   variant="outline"
                   size="sm"
+                  onClick={() => navigate('/profile')}
+                  className="border-primary/20 hover:bg-primary/10"
+                >
+                  <User className="w-4 h-4 mr-2" />
+                  Profile
+                </Button>
+                <Button 
+                  variant="outline"
+                  size="sm"
                   onClick={() => setShowUserSearch(true)}
                 >
                   <Search className="w-4 h-4 mr-2" />
