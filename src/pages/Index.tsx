@@ -899,22 +899,6 @@ const Index = () => {
                 <div>
                   <h1 className="text-2xl font-bold text-text-primary">Croowa</h1>
                 </div>
-                
-                {/* Navigation Links */}
-                <div className="hidden md:flex space-x-6">
-                  <button onClick={() => {setShowDashboard(false); setTimeout(() => scrollToSection('saving-methods'), 100)}} className="text-text-secondary hover:text-text-primary transition-colors">
-                    Saving methods
-                  </button>
-                  <button onClick={() => {setShowDashboard(false); setTimeout(() => scrollToSection('how-it-works'), 100)}} className="text-text-secondary hover:text-text-primary transition-colors">
-                    How it works
-                  </button>
-                  <button onClick={() => {setShowDashboard(false); setTimeout(() => scrollToSection('pricing'), 100)}} className="text-text-secondary hover:text-text-primary transition-colors">
-                    Pricing
-                  </button>
-                  <button onClick={() => {setShowDashboard(false); setTimeout(() => scrollToSection('contact'), 100)}} className="text-text-secondary hover:text-text-primary transition-colors">
-                    Contact
-                  </button>
-                </div>
               </div>
               
               <div className="flex items-center space-x-4">
@@ -944,23 +928,6 @@ const Index = () => {
               </div>
           </div>
           
-          {/* Mobile Navigation */}
-          {mobileMenuOpen && (
-            <div className="md:hidden py-4 space-y-2 border-t border-border mt-4">
-                <button onClick={() => {setShowDashboard(false); setMobileMenuOpen(false); setTimeout(() => scrollToSection('saving-methods'), 100)}} className="block w-full text-left py-2 text-text-secondary hover:text-text-primary">
-                  Saving methods
-                </button>
-                <button onClick={() => {setShowDashboard(false); setMobileMenuOpen(false); setTimeout(() => scrollToSection('how-it-works'), 100)}} className="block w-full text-left py-2 text-text-secondary hover:text-text-primary">
-                  How it works
-                </button>
-                <button onClick={() => {setShowDashboard(false); setMobileMenuOpen(false); setTimeout(() => scrollToSection('pricing'), 100)}} className="block w-full text-left py-2 text-text-secondary hover:text-text-primary">
-                  Pricing
-                </button>
-                <button onClick={() => {setShowDashboard(false); setMobileMenuOpen(false); setTimeout(() => scrollToSection('contact'), 100)}} className="block w-full text-left py-2 text-text-secondary hover:text-text-primary">
-                  Contact
-                </button>
-            </div>
-          )}
         </div>
       </header>
 
