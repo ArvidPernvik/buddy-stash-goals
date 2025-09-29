@@ -82,46 +82,42 @@ const Index = () => {
     if (!user?.id) return;
 
     try {
-      // Fetch all goals the user can see:
-      // 1. Goals they created themselves
-      // 2. Public goals from groups they're a member of
-      const { data, error } = await supabase
-        // First get group memberships to avoid subselect errors
-        const { data: memberships, error: membershipsError } = await supabase
-          .from('group_members')
-          .select('group_id')
-          .eq('user_id', user.id);
+      // First get group memberships to avoid subselect errors
+      const { data: memberships, error: membershipsError } = await supabase
+        .from('group_members')
+        .select('group_id')
+        .eq('user_id', user.id);
 
-        if (membershipsError) {
-          console.error('Error fetching memberships:', membershipsError);
-        }
+      if (membershipsError) {
+        console.error('Error fetching memberships:', membershipsError);
+      }
 
-        // Build base query
-        let query = supabase
-          .from('savings_goals')
-          .select(`
-            *,
-            savings_groups(name)
-          `)
-          .order('created_at', { ascending: false });
+      // Build base query
+      let query = supabase
+        .from('savings_goals')
+        .select(`
+          *,
+          savings_groups(name)
+        `)
+        .order('created_at', { ascending: false });
 
-        const groupIds = (memberships || []).map((m: any) => m.group_id);
+      const groupIds = (memberships || []).map((m: any) => m.group_id);
 
-        if (groupIds.length > 0) {
-          query = query.or(`user_id.eq.${user.id},group_id.in.(${groupIds.join(',')})`);
-        } else {
-          query = query.eq('user_id', user.id);
-        }
+      if (groupIds.length > 0) {
+        query = query.or(`user_id.eq.${user.id},group_id.in.(${groupIds.join(',')})`);
+      } else {
+        query = query.eq('user_id', user.id);
+      }
 
-        const { data, error } = await query;
+      const { data: goalsData, error: goalsError } = await query;
 
-      if (error) {
-        console.error('Error fetching goals:', error);
+      if (goalsError) {
+        console.error('Error fetching goals:', goalsError);
         return;
       }
 
       // Transform database data to match our frontend format
-      const transformedGoals = (data || []).map(goal => ({
+      const transformedGoals = (goalsData || []).map(goal => ({
         id: goal.id,
         title: goal.title,
         description: goal.description || '',
